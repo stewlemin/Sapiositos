@@ -52,14 +52,11 @@ public class GazeRule
             {
                 isLookedAt = false;
                 events.BroadcastGazeEnded();
-            }
-            //decrement timer
-            lookTimer -= deltaTime * profile.cooldownSpeed;
 
-            if (lookTimer < 0f)
-            {
-                lookTimer = 0f;
+                lookTimer = 0f; //reset timer
+                return "TeleportAway";
             }
+
             //approach player
             return "Approach";
 

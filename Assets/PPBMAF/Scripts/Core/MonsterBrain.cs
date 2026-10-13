@@ -9,7 +9,7 @@ public class MonsterBrain : MonoBehaviour
     public MonsterContext context;
     public MonsterEventChannel events;
     //state vars
-    public string currentState = "Hidden"; //can be Hidden, Approach, Frozen, Attack
+    public string currentState = "Hidden"; //can be Hidden, Approach, Frozen, Attack, TeleportAway
     private GazeRule gazeRule;
 
     void Start()
@@ -24,8 +24,19 @@ public class MonsterBrain : MonoBehaviour
         {
             return;
         }
-        //ask rule what state we should be in and change state based on rule
-        currentState = gazeRule.CheckRule(transform, Time.deltaTime);
+        //ask rule what state we should be in
+        string nextDecision = gazeRule.CheckRule(transform, Time.deltaTime);
+
+        if (nextDecision == "TeleportAway")
+        {
+            RepositionMonster();
+            currentState = "Approach";
+        }
+        else
+        {
+            currentState = nextDecision;
+        }
+
         MoveMonster();
     }
 
@@ -62,5 +73,22 @@ public class MonsterBrain : MonoBehaviour
         gazeRule.ResetTimer();
         currentState = "Approach";
         gameObject.SetActive(true);
+    }
+
+    //helper function to teleport monster out of view
+    private void RepositionMonster()
+    {
+        //how far away is monster? so it stays in same range as player
+        float currentDist = Vector3.Distance(transform.position, context.playerTransf.position);
+        //get direction behind player cam
+        Vector3 behindDir = -context.playerCam.transform.forward;
+        behindDir.Normalize();
+        //add random angle so its not always spawning in a straight line
+        float randomAng = Random.Range(-60f, 60f);
+        Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
+        //teleport monster to new spot
+        transform.position = context.playerTransf.position + (finalDir * currentDist);
+        //turn to face player
+        transform.LookAt(context.playerTransf.position);
     }
 }
