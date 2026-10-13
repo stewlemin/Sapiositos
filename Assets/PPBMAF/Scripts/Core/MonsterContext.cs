@@ -8,6 +8,7 @@ public class MonsterContext : MonoBehaviour
 
     public float GetPlayerSpeed()
     {
-        return 0f;
+        if (playerRb == null) return 0f;
+        return playerRb.linearVelocity.magnitude;
     }
 }

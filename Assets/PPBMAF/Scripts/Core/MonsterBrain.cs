@@ -1,3 +1,5 @@
+using System.Transactions;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class MonsterBrain : MonoBehaviour
@@ -12,14 +14,53 @@ public class MonsterBrain : MonoBehaviour
 
     void Start()
     {
-        
+        gazeRule = new GazeRule();
+        gazeRule.Setup(profile, context, events);
     }
 
     void Update()
     {
-        
+        if (currentState == "Hidden")
+        {
+            return;
+        }
+        //ask rule what state we should be in and change state based on rule
+        currentState = gazeRule.CheckRule(transform, Time.deltaTime);
+        MoveMonster();
     }
 
     //handles movement logic
-    private void MoveMonster() {}
+    private void MoveMonster()
+    {
+        if (context.playerTransf == null) return;
+
+        if (currentState == "Approach")
+        {
+            Vector3 targetPos = context.playerTransf.position; //get player pos
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, profile.walkSpeed * Time.deltaTime); //move to the player
+            transform.LookAt(targetPos); //turn to face player
+        }
+        else if (currentState == "Attack")
+        {   
+            //rush to player
+            Vector3 targetPos = context.playerTransf.position;
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, profile.attackSpeed * Time.deltaTime);
+            //if we touch or get very close to player, jumpscare
+            float distToPlayer = Vector3.Distance(transform.position, targetPos);
+            if (distToPlayer < 1.5f)
+            {
+                events.BroadcastJumpscare();
+                currentState = "Hidden";
+            }
+        }
+    }
+
+    //helper function to spawn monster at a position and start hunting
+    public void SpawnMonster(Vector3 spawnPos)
+    {
+        transform.position = spawnPos;
+        gazeRule.ResetTimer();
+        currentState = "Approach";
+        gameObject.SetActive(true);
+    }
 }

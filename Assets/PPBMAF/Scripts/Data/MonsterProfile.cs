@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MonsterProfile", menuName = "Scriptable Objects/MonsterProfile")]
+[CreateAssetMenu(fileName = "MonsterProfile", menuName = "PPBMAF/Monster Profile")]
 public class MonsterProfile : ScriptableObject
 {
     //movement vars
