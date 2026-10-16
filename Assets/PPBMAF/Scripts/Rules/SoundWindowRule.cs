@@ -15,6 +15,7 @@ public class SoundWindowRule
         events = e;
         currentPhase = "Silent";
         phaseTimer = profile.maxSilentTime;
+        Debug.Log("Green light");
     }
 
     public string CheckRule(Transform monsterTransf, float deltaTime)
@@ -29,7 +30,10 @@ public class SoundWindowRule
                 currentPhase = "Warning";
                 phaseTimer = profile.warningTime;
                 events.BroadcastWarningStarted();
+                Debug.Log("Yellow light");
+                return "Patrol";
             }
+            return "Hidden"; //stay hidden durin green light
         }
         //yellow light warning
         else if (currentPhase == "Warning")
@@ -39,12 +43,18 @@ public class SoundWindowRule
                 currentPhase = "Sound";
                 phaseTimer = profile.soundTime;
                 events.BroadcastSoundStarted();
+                Debug.Log("Red light");
             }
+            return "Patrol"; //walk in during yellow
         }
         //red light sound
         else if (currentPhase == "Sound")
         {
-            if (context.GetPlayerSpeed() > profile.tolerance) return "Attack";
+            Debug.Log("Current player speed: " + context.GetPlayerSpeed());
+            if (context.GetPlayerSpeed() > profile.tolerance)  {
+                Debug.Log("Game over");
+                return "Attack";
+                }
             if (phaseTimer <= 0f)
             {
                 currentPhase = "Silent";
@@ -52,8 +62,10 @@ public class SoundWindowRule
                 //aggression scaling
                 float progress = context.GetPlayerProgress();
                 phaseTimer = Mathf.Lerp(profile.maxSilentTime, profile.minSilentTime, progress);
+                Debug.Log("Green light");
             }
+            return "Patrol"; //keep walking durin red
         }
-        return "Patrol";
+        return "Hidden";
     }
 }

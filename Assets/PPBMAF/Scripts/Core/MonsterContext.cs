@@ -10,10 +10,30 @@ public class MonsterContext : MonoBehaviour
     public Transform caveStart;
     public Transform caveExit;
 
+    private Vector3 lastPos;
+    private float speed;
+
+    void Start()
+    {
+        if (playerTransf != null)
+        {
+            lastPos = playerTransf.position;
+        }
+    }
+
+    void Update()
+    {
+        //calculate speed manually
+        if (playerTransf != null)
+        {
+            speed = Vector3.Distance(playerTransf.position, lastPos) / Time.deltaTime;
+            lastPos = playerTransf.position;
+        }
+    }
+
     public float GetPlayerSpeed()
     {
-        if (playerRb == null) return 0f;
-        return playerRb.linearVelocity.magnitude;
+        return speed;
     }
 
     public float GetPlayerProgress()

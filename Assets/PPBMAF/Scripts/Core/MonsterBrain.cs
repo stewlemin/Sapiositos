@@ -4,29 +4,71 @@ using UnityEngine;
 
 public class MonsterBrain : MonoBehaviour
 {
-    //data vars
+    [Header("Data references")]
     public MonsterProfile profile;
     public MonsterContext context;
     public MonsterEventChannel events;
-    //state vars
+
+    [Header("Current state")]
     public string currentState = "Hidden"; //can be Hidden, Approach, Frozen, Attack, TeleportAway
+    
+    [Header("Monster type")]
+    public bool isStalker = true; //true = stalker, false = patroller
     private GazeRule gazeRule;
+    private SoundWindowRule soundRule;
+    private Vector3 sweepTargetPos; //where patroller is walking to
 
     void Start()
     {
-        gazeRule = new GazeRule();
-        gazeRule.Setup(profile, context, events);
+        if (isStalker)
+        {
+            gazeRule = new GazeRule();
+            gazeRule.Setup(profile, context, events);
+        }
+        else
+        {
+            soundRule = new SoundWindowRule();
+            soundRule.Setup(profile, context, events);
+            events.OnWarningStarted += StartSweep; //listen to warning event to start sweep
+        }
+        
+    }
+
+    void OnDisable()
+    {
+        if (!isStalker) events.OnWarningStarted -= StartSweep; //listener cleanup
     }
 
     void Update()
     {
-        if (currentState == "Hidden")
+        string nextDecision = "Hidden";
+        //ask correct rule what to do
+        if (isStalker)
         {
+            nextDecision = gazeRule.CheckRule(transform, Time.deltaTime);
+        }
+        else
+        {
+            nextDecision = soundRule.CheckRule(transform, Time.deltaTime);
+        }
+        //despawn if hidden
+        if (nextDecision == "Hidden")
+        {
+            currentState = "Hidden";
+           
+            if (isStalker)
+            {
+                gameObject.SetActive(false); //turn off stalker, sapwner will wake it
+            }
+            else
+            {
+                transform.position = new Vector3(0, -500f, 0); //hide patroller under floor
+            }
+
             return;
         }
-        //ask rule what state we should be in
-        string nextDecision = gazeRule.CheckRule(transform, Time.deltaTime);
 
+        //handle stalker teleport
         if (nextDecision == "TeleportAway")
         {
             RepositionMonster();
@@ -57,19 +99,52 @@ public class MonsterBrain : MonoBehaviour
             }
             transform.LookAt(targetPos); //turn to face player
         }
+        else if (currentState == "Patrol")
+        {
+            //patroller walk to sweep target
+            transform.position = Vector3.MoveTowards(transform.position, sweepTargetPos, profile.walkSpeed * Time.deltaTime);
+            //if it reahces end of line early, hide it
+            if (Vector3.Distance(transform.position, sweepTargetPos) < 1.0f)
+            {
+                transform.position = new Vector3(0, -500f, 0);
+            }
+        }
         else if (currentState == "Attack")
         {   
+            gameObject.SetActive(true); //make sure its visible
             //rush to player
             Vector3 targetPos = context.playerTransf.position;
             transform.position = Vector3.MoveTowards(transform.position, targetPos, profile.attackSpeed * Time.deltaTime);
+            
             //if we touch or get very close to player, jumpscare
             float distToPlayer = Vector3.Distance(transform.position, targetPos);
             if (distToPlayer < 1.5f)
             {
                 events.BroadcastJumpscare();
                 currentState = "Hidden";
+                gameObject.SetActive(false);
             }
         }
+    }
+
+    //helper function for patroller to calculate the line sweep
+    private void StartSweep()
+    {
+        float forwardDist = Random.value > 0.5f ? 15f : -15f; //decide if sweep in front or behind player
+        float sideDist = Random.value > 0.5f ? 20f : -20f; //decide if start left or right
+
+        //get player orientation
+        Vector3 playerPos = context.playerTransf.position;
+        Vector3 pForward = context.playerTransf.forward;
+        Vector3 pRight = context.playerTransf.right;
+
+        //calculate start and endpoints in world
+        Vector3 startPos = playerPos + (pForward * forwardDist) + (pRight * sideDist);
+        sweepTargetPos = playerPos + (pForward * forwardDist) + (pRight * -sideDist); //opposite side
+        
+        transform.position = startPos; //tp to start
+        transform.LookAt(sweepTargetPos); //face end target
+        gameObject.SetActive(true); //turn on
     }
 
     //helper function to spawn monster at a position and start hunting
