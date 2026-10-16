@@ -48,7 +48,13 @@ public class MonsterBrain : MonoBehaviour
         if (currentState == "Approach")
         {
             Vector3 targetPos = context.playerTransf.position; //get player pos
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, profile.walkSpeed * Time.deltaTime); //move to the player
+
+            float distToPlayer = Vector3.Distance(transform.position, targetPos);
+            if (distToPlayer > profile.stopDist)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetPos, profile.walkSpeed * Time.deltaTime); //move to the player
+
+            }
             transform.LookAt(targetPos); //turn to face player
         }
         else if (currentState == "Attack")
