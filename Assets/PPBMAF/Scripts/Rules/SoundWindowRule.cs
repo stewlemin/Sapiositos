@@ -14,11 +14,46 @@ public class SoundWindowRule
         context = c;
         events = e;
         currentPhase = "Silent";
-        phaseTimer = profile.silentTime;
+        phaseTimer = profile.maxSilentTime;
     }
 
     public string CheckRule(Transform monsterTransf, float deltaTime)
     {
-        return "Frozen";
+        phaseTimer -= deltaTime;
+
+        //green light silent
+        if (currentPhase == "Silent")
+        {
+            if (phaseTimer <= 0f)
+            {
+                currentPhase = "Warning";
+                phaseTimer = profile.warningTime;
+                events.BroadcastWarningStarted();
+            }
+        }
+        //yellow light warning
+        else if (currentPhase == "Warning")
+        {
+            if (phaseTimer <= 0f)
+            {
+                currentPhase = "Sound";
+                phaseTimer = profile.soundTime;
+                events.BroadcastSoundStarted();
+            }
+        }
+        //red light sound
+        else if (currentPhase == "Sound")
+        {
+            if (context.GetPlayerSpeed() > profile.tolerance) return "Attack";
+            if (phaseTimer <= 0f)
+            {
+                currentPhase = "Silent";
+                events.BroadcastSoundEnded();
+                //aggression scaling
+                float progress = context.GetPlayerProgress();
+                phaseTimer = Mathf.Lerp(profile.maxSilentTime, profile.minSilentTime, progress);
+            }
+        }
+        return "Patrol";
     }
 }

@@ -14,8 +14,9 @@ public class MonsterProfile : ScriptableObject
     public LayerMask obstacles; //which layers block camera?
 
     //patroller vars
-    public float silentTime = 6.0f; //time player can move
+    public float maxSilentTime = 6.0f; //time player can move at the start
+    public float minSilentTime = 6.0f; //time player can move at the end
     public float warningTime = 1.5f; //grace period timer
     public float soundTime = 4.0f; //time player cant move
-
+    public float tolerance = 0.05f; //movement physics tolerance
 }
