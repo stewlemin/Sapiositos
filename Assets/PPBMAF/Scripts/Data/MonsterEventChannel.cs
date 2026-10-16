@@ -8,7 +8,11 @@ public class MonsterEventChannel : ScriptableObject
     public Action OnGazeStarted;
     public Action OnGazeEnded;
     public Action OnJumpscareTriggered;
+    public Action OnSoundStarted;
+    public Action OnSoundEnded;
+    public Action OnWarningStarted;
 
+    //stalker broadcasts
     public void BroadcastArtefactCollected(int artefactNr)
     {
         if (OnArtefactCollected != null) OnArtefactCollected(artefactNr);
@@ -24,5 +28,18 @@ public class MonsterEventChannel : ScriptableObject
     public void BroadcastJumpscare()
     {
         if (OnJumpscareTriggered != null) OnJumpscareTriggered();
+    }
+    //patroller broadcasts
+    public void BroadcastSoundStarted()
+    {
+        if (OnSoundStarted != null) OnSoundStarted();
+    }
+    public void BroadcastSoundEnded()
+    {
+        if (OnSoundEnded != null) OnSoundEnded();
+    }
+    public void BroadcastWarningStarted()
+    {
+        if (OnWarningStarted != null) OnWarningStarted();
     }
 }
