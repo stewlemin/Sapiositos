@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     //
     //movement realted
     private CharacterController controller;
-    private Vector2 horizontalDirection;
+    private Vector3 horizontalDirection;
     private Vector3 verticalDirection;
     private Vector3 currentVelocity;
 
@@ -61,6 +61,10 @@ public class PlayerController : MonoBehaviour
     private float yaw = 0f;
     private float currentSpeed = 0f;
     private float targetSpeed = 0f;
+
+    //state machine related
+    WaterHorizontal waterHorizontal;
+    WaterVertical waterVertical;
 
     void OnEnable(){
 	UserInput.moveEvent += OnMove;
@@ -85,18 +89,18 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-	handleLandMovement();
+	handleMovement();
 	handleCamera(cameraDisplacement);
     }
 
-    private void handleLandMovement(){	
-	Vector3 inputDirection = new Vector3(horizontalDirection.x, 0, horizontalDirection.y); 
-	Vector3 targetDirection = transform.rotation * inputDirection;
+    private void handleMovement(){
+	//pass vertical and horizontal directions to determine player states
+	targetSpeed = updateStateMachines(horizontalDirection,verticalDirection);
+
+	Vector3 targetDirection = transform.rotation * horizontalDirection;
 	targetDirection += verticalDirection;
 	Vector3 targetVelocity = targetDirection.normalized * targetSpeed;
 	currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-	
-
 
 	controller.Move(currentVelocity * Time.deltaTime);
 		
@@ -110,9 +114,43 @@ public class PlayerController : MonoBehaviour
 	transform.rotation = Quaternion.Euler(pitch,yaw,0);
     }
 
+    private float updateStateMachines(Vector3 horizontal, Vector3 vertical){
+	if(horizontal != Vector3.zero){
+	    waterHorizontal = WaterHorizontal.Swim;
+	}
+	else{
+	    waterHorizontal = WaterHorizontal.Idle;
+	}
+
+	if(vertical.y > 0f){
+	    waterVertical = WaterVertical.Ascend;
+	}
+    	
+	else if(vertical.y < 0f){
+	    waterVertical = WaterVertical.Descend;
+	}
+	
+	else{
+	    waterVertical = WaterVertical.Idle;
+	}
+
+	if(waterVertical == WaterVertical.Idle && waterHorizontal == WaterHorizontal.Idle){
+	    return 0f;
+	}
+
+	else{
+	    return maxSpeed;
+	}
+
+
+
+
+	
+    }
+
     //reading and storing the values of the input events
     private void OnMove(Vector2 direction){
-	    horizontalDirection = direction;
+	    horizontalDirection = new Vector3(direction.x,0,direction.y);
 	    targetSpeed = maxSpeed;
 	    Debug.Log(direction);
     }
@@ -123,8 +161,7 @@ public class PlayerController : MonoBehaviour
 
 
     private void OnMoveStop(Vector2 directionZero){
-    //	horizontalDirection = directionZero;
-    	targetSpeed = 0f;
+	horizontalDirection = directionZero;
     }
 
     private void OnUp(){
