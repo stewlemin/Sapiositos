@@ -7,6 +7,8 @@ public class PlayerStats : ScriptableObject
     [SerializeField] private float walkSpeed;
     [SerializeField] private float sprintSpeed;
 
+    [SerializeField] private float mouseSensitivity;
+
 
 
     //public flaot getSpeed(

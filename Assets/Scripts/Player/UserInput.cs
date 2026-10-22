@@ -16,6 +16,7 @@ public class UserInput : ScriptableObject
     //assigning events for each of the input actions, this approach is preffered rather then polling in Update()
     public delegate void MoveEvent(Vector2 direction);
     public static event MoveEvent moveEvent;
+    public static event MoveEvent moveCanceledEvent;
 
     public delegate void LookEvent(Vector2 direction);
     public static event LookEvent lookEvent;
@@ -114,10 +115,17 @@ public class UserInput : ScriptableObject
     
     //functions that the Actions call upon user interaction
     void OnMove(InputAction.CallbackContext context){
-	moveEvent?.Invoke(context.ReadValue<Vector2>());
+	if(moveEvent != null && context.performed){
+	    moveEvent.Invoke(context.ReadValue<Vector2>());
+	}
+	else if(moveCanceledEvent != null && context.canceled){
+	    moveCanceledEvent.Invoke(context.ReadValue<Vector2>());
+	}
     }
 
-    void OnLook(InputAction.CallbackContext context){}
+    void OnLook(InputAction.CallbackContext context){
+	lookEvent?.Invoke(context.ReadValue<Vector2>());
+    }
 
     void OnInteract(InputAction.CallbackContext context){}
 
