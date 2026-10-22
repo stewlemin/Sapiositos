@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     //movement realted
     private CharacterController controller;
     private Vector2 horizontalDirection;
+    private Vector3 verticalDirection;
     private Vector3 currentVelocity;
 
     //camera realted
@@ -65,6 +66,10 @@ public class PlayerController : MonoBehaviour
 	UserInput.moveEvent += OnMove;
 	UserInput.lookEvent += OnLook;
 	UserInput.moveCanceledEvent += OnMoveStop;
+	UserInput.upEvent += OnUp;
+	UserInput.downEvent += OnDown;
+	UserInput.upCanceledEvent += OnUpStop;
+	UserInput.downCanceledEvent += OnDownStop;
     }
 
     void Awake()
@@ -87,14 +92,13 @@ public class PlayerController : MonoBehaviour
     private void handleLandMovement(){	
 	Vector3 inputDirection = new Vector3(horizontalDirection.x, 0, horizontalDirection.y); 
 	Vector3 targetDirection = transform.rotation * inputDirection;
-	Vector3 targetVelocity = targetDirection * targetSpeed;
+	targetDirection += verticalDirection;
+	Vector3 targetVelocity = targetDirection.normalized * targetSpeed;
 	currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
-
-	controller.Move(currentVelocity * Time.deltaTime);
-
 	
 
 
+	controller.Move(currentVelocity * Time.deltaTime);
 		
 
     }
@@ -109,7 +113,8 @@ public class PlayerController : MonoBehaviour
     //reading and storing the values of the input events
     private void OnMove(Vector2 direction){
 	    horizontalDirection = direction;
-	    targetSpeed = maxSpeed; 
+	    targetSpeed = maxSpeed;
+	    Debug.Log(direction);
     }
 
     private void OnLook(Vector2 displacement){
@@ -120,6 +125,24 @@ public class PlayerController : MonoBehaviour
     private void OnMoveStop(Vector2 directionZero){
     //	horizontalDirection = directionZero;
     	targetSpeed = 0f;
+    }
+
+    private void OnUp(){
+	Debug.Log("up");
+	verticalDirection = verticalDirection + new Vector3(0f,1f,0f);
+    }
+
+    private void OnDown(){
+	Debug.Log("down");
+	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
+    }
+
+    private void OnDownStop(){
+	verticalDirection = verticalDirection + new Vector3(0f,1f,0f);
+    }
+
+    private void OnUpStop(){
+	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
     }
 
 

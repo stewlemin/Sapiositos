@@ -26,9 +26,11 @@ public class UserInput : ScriptableObject
 
     public delegate void UpEvent();
     public static event UpEvent upEvent;
+    public static event UpEvent upCanceledEvent;
 
     public delegate void DownEvent();
     public static event DownEvent downEvent;
+    public static event DownEvent downCanceledEvent;
 
     public delegate void SprintEvent();
     public static event SprintEvent sprintEvent;
@@ -129,9 +131,24 @@ public class UserInput : ScriptableObject
 
     void OnInteract(InputAction.CallbackContext context){}
 
-    void OnUp(InputAction.CallbackContext context){}
+    void OnUp(InputAction.CallbackContext context){
+	if(upEvent != null && context.performed){
+	    upEvent.Invoke();
+	}
+	else if(upCanceledEvent != null && context.canceled){
+	    upCanceledEvent.Invoke();
+	}
+    }
 
-    void OnDown(InputAction.CallbackContext context){}
+    void OnDown(InputAction.CallbackContext context){
+	if(downEvent != null && context.performed){
+	    downEvent.Invoke();
+	}
+	else if(downCanceledEvent != null && context.canceled){
+	    downCanceledEvent.Invoke();
+	}
+
+    }
 
     void OnSprint(InputAction.CallbackContext context){}
 
