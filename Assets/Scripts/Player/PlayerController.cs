@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     //Inspector exposed variables 
     [SerializeField] GameObject mainCamera;
+    //change this to a different script later on
+    [SerializeField] Animator animator;
     //temp prototype variables move later intro scriptable objects???
     //maybe change location later
     [SerializeField] float lookSensitivity;
@@ -117,9 +119,11 @@ public class PlayerController : MonoBehaviour
     private float updateStateMachines(Vector3 horizontal, Vector3 vertical){
 	if(horizontal != Vector3.zero){
 	    waterHorizontal = WaterHorizontal.Swim;
+	    animator.speed = 2f;
 	}
 	else{
 	    waterHorizontal = WaterHorizontal.Idle;
+	    animator.speed = 0.5f;
 	}
 
 	if(vertical.y > 0f){
