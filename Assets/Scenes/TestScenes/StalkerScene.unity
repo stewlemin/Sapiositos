@@ -745,6 +745,8 @@ GameObject:
   - component: {fileID: 1207388436}
   - component: {fileID: 1207388435}
   - component: {fileID: 1207388434}
+  - component: {fileID: 1207388440}
+  - component: {fileID: 1207388439}
   m_Layer: 7
   m_Name: Stalker
   m_TagString: Untagged
@@ -864,6 +866,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1207388439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207388433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e95c007a1e64cadbb097cce9b89711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StalkerAudio
+  events: {fileID: 11400000, guid: cc60b2b0de2d3e74e8551924372eacbf, type: 2}
+  clip1: {fileID: 8300000, guid: 63291e7721465a547807f8fe25d0a0e2, type: 3}
+  clip2: {fileID: 0}
+  clip3: {fileID: 8300000, guid: 3b9ba854d568d7440a800736c317739c, type: 3}
+--- !u!114 &1207388440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1207388433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f607cf48ed7304a20bd8a986dd2465cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpatialAudioManager
+  mixer: {fileID: 24300002, guid: ac6f6519144ac403d8e48779467e5009, type: 2}
+  minDistance: 2
+  maxDistance: 40
 --- !u!1 &1259400693
 GameObject:
   m_ObjectHideFlags: 0
