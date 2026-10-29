@@ -1,4 +1,3 @@
-using UnityEditor.ProjectWindowCallback;
 using UnityEngine;
 
 public class StalkerSpawner : MonoBehaviour
@@ -7,6 +6,7 @@ public class StalkerSpawner : MonoBehaviour
     public StalkerSpawnSchedule schedule;
     public MonsterEventChannel events;
     public MonsterContext context;
+    public float spawnSpace = 1.0f;
 
     void OnEnable()
     {
@@ -48,13 +48,25 @@ public class StalkerSpawner : MonoBehaviour
         //get dir pointing backward from camera
         Vector3 behindDir = -cam.forward;
         behindDir.Normalize();
-        //pick random dist btwn min and max
-        float randomDist = Random.Range(mini, maxi);
-        //add random angle so its not always spawning in a straight line
-        float randomAng = Random.Range(-45f, 45f);
-        Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
-        //calculate spaawn pos based on player pos
-        Vector3 spawnPos = context.playerTransf.position + (finalDir * randomDist);
-        return spawnPos;
+
+        Vector3 fallback = context.playerTransf.position;
+        //try 30 times to find a spot that isnt inside the wall
+        for (int i = 0; i < 30; i++)
+        {
+            //pick random dist btwn min and max
+            float randomDist = Random.Range(mini, maxi);
+            //add random angle so its not always spawning in a straight line
+            float randomAng = Random.Range(-45f, 45f);
+            Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
+            Vector3 testPos = context.playerTransf.position + (finalDir * randomDist);
+
+            if (!Physics.CheckSphere(testPos, spawnSpace, stalkerBrain.profile.obstacles)) //check sphere true if hit wall, false if not
+            {
+                return testPos; //clear spot
+            }
+            fallback = testPos; //save in case we dont find another good one
+        }
+        //if player is backed in corner and fails 30 times, return last try
+        return fallback;
     }
 }

@@ -1,5 +1,3 @@
-using System.Transactions;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class MonsterBrain : MonoBehaviour
@@ -164,11 +162,25 @@ public class MonsterBrain : MonoBehaviour
         //get direction behind player cam
         Vector3 behindDir = -context.playerCam.transform.forward;
         behindDir.Normalize();
-        //add random angle so its not always spawning in a straight line
-        float randomAng = Random.Range(-60f, 60f);
-        Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
-        //teleport monster to new spot
-        transform.position = context.playerTransf.position + (finalDir * currentDist);
+
+        for (int i = 0; i < 30; i++)
+        {
+            //add random angle so its not always spawning in a straight line
+            float randomAng = Random.Range(-60f, 60f);
+            Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
+            Vector3 testPos = context.playerTransf.position + (finalDir * currentDist);
+            
+            //check for walls w/ 1 radius ball
+            if(!Physics.CheckSphere(testPos, 1.0f, profile.obstacles))
+            {
+                transform.position = testPos; //found safe spot
+                transform.LookAt(context.playerTransf.position); //face the player
+                return;
+            }
+            //if cant find a spot just stay still and look at player
+            transform.LookAt(context.playerTransf.position); 
+        }
+        
         //turn to face player
         transform.LookAt(context.playerTransf.position);
     }

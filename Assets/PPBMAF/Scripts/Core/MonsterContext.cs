@@ -4,8 +4,6 @@ public class MonsterContext : MonoBehaviour
 {
     public Transform playerTransf;
     public Camera playerCam;
-    public Rigidbody playerRb;
-
     //patroller cave progress
     public Transform caveStart;
     public Transform caveExit;
