@@ -50,7 +50,6 @@ public class SoundWindowRule
         //red light sound
         else if (currentPhase == "Sound")
         {
-            Debug.Log("Current player speed: " + context.GetPlayerSpeed());
             if (context.GetPlayerSpeed() > profile.tolerance)  {
                 Debug.Log("Game over");
                 return "Attack";
