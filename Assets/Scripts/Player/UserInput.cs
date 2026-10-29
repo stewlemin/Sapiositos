@@ -129,7 +129,9 @@ public class UserInput : ScriptableObject
 	lookEvent?.Invoke(context.ReadValue<Vector2>());
     }
 
-    void OnInteract(InputAction.CallbackContext context){}
+    void OnInteract(InputAction.CallbackContext context){
+	    interactEvent?.Invoke();
+    }
 
     void OnUp(InputAction.CallbackContext context){
 	if(upEvent != null && context.performed){

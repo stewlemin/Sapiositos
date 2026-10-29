@@ -6,7 +6,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     //Inspector exposed variables 
-    [SerializeField] GameObject mainCamera;
+    [SerializeField] Camera mainCamera;
     //change this to a different script later on
     [SerializeField] Animator animator;
     //temp prototype variables move later intro scriptable objects???
@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxCameraRotation;
     [SerializeField] float maxSpeed = 3f;
     [SerializeField] float acceleration = 2;
-    [SerializeField] float verticalSway;
+    [SerializeField] float interactRange = 2.0f;
     
     //Enum conveying the player's environmental state
     enum EnvironmentType{
@@ -57,11 +57,15 @@ public class PlayerController : MonoBehaviour
     private Vector3 verticalDirection;
     private Vector3 currentVelocity;
 
+    //interact related
+    private bool hitInteractable = false;
+    private int layerMask = 192;//6th and 7th bit are 1 coresponding to the layers that you can interact with
+    private GameObject collectedObject;
+
     //camera realted
     private Vector2 cameraDisplacement;
     private float pitch = 0f;
     private float yaw = 0f;
-    private float currentSpeed = 0f;
     private float targetSpeed = 0f;
 
     //state machine related
@@ -76,6 +80,7 @@ public class PlayerController : MonoBehaviour
 	UserInput.downEvent += OnDown;
 	UserInput.upCanceledEvent += OnUpStop;
 	UserInput.downCanceledEvent += OnDownStop;
+	UserInput.interactEvent += OnInteract;
     }
 
     void Awake()
@@ -93,6 +98,7 @@ public class PlayerController : MonoBehaviour
     {
 	handleMovement();
 	handleCamera(cameraDisplacement);
+	handleRaycast();
     }
 
     private void handleMovement(){
@@ -105,8 +111,6 @@ public class PlayerController : MonoBehaviour
 	currentVelocity = Vector3.Lerp(currentVelocity, targetVelocity, acceleration * Time.deltaTime);
 
 	controller.Move(currentVelocity * Time.deltaTime);
-		
-
     }
 
     private void handleCamera(Vector2 mouseDelta){
@@ -114,6 +118,21 @@ public class PlayerController : MonoBehaviour
 	pitch = Math.Clamp(pitch,-maxCameraRotation, maxCameraRotation);
 	yaw += mouseDelta.x * lookSensitivity;
 	transform.rotation = Quaternion.Euler(pitch,yaw,0);
+    }
+
+    private void handleRaycast(){
+	Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f,0.5f,0f));
+	if (Physics.Raycast(ray, out RaycastHit hit, interactRange,layerMask)){
+	    hitInteractable = true;
+	    GameObject interactedObject = hit.collider.gameObject;
+	    if(interactedObject.layer == 6){ 
+		collectedObject = interactedObject;
+	    }
+	}
+	else{
+	    hitInteractable = false;
+	    collectedObject = null;
+	}
     }
 
     private float updateStateMachines(Vector3 horizontal, Vector3 vertical){
@@ -184,6 +203,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnUpStop(){
 	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
+    }
+    
+    private void OnInteract(){
+	if(hitInteractable && collectedObject != null && InteractSystem.instance.listContainsCollectible(collectedObject)){
+	    Debug.Log("collected");
+	    InteractSystem.instance.Collect(collectedObject);
+	}		
+	else if(hitInteractable){
+	    InteractSystem.instance.Place();
+	}
     }
 
 
