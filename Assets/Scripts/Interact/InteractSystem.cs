@@ -46,8 +46,10 @@ public class InteractSystem : MonoBehaviour
 	collectedObjects += 1;
 	Debug.Log(collectedObjects);
     }
+    
 
-    public void Place(){
+    public void Place(GameObject objectToTryPlace){
+
 	
     }
 

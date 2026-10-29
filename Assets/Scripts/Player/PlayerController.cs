@@ -48,6 +48,13 @@ public class PlayerController : MonoBehaviour
 	Falling
     }
 
+    //Enum for collectable states
+    enum InteractType{
+	None,
+	Collectible,
+	Placeable
+    }
+
     
     //Initializations
     //
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour
     //interact related
     private bool hitInteractable = false;
     private int layerMask = 192;//6th and 7th bit are 1 coresponding to the layers that you can interact with
-    private GameObject collectedObject;
+    private GameObject interactedObject;
 
     //camera realted
     private Vector2 cameraDisplacement;
@@ -71,6 +78,7 @@ public class PlayerController : MonoBehaviour
     //state machine related
     WaterHorizontal waterHorizontal;
     WaterVertical waterVertical;
+    InteractType interactType = InteractType.None;
 
     void OnEnable(){
 	UserInput.moveEvent += OnMove;
@@ -124,14 +132,19 @@ public class PlayerController : MonoBehaviour
 	Ray ray = mainCamera.ViewportPointToRay(new Vector3(0.5f,0.5f,0f));
 	if (Physics.Raycast(ray, out RaycastHit hit, interactRange,layerMask)){
 	    hitInteractable = true;
-	    GameObject interactedObject = hit.collider.gameObject;
-	    if(interactedObject.layer == 6){ 
-		collectedObject = interactedObject;
+	    interactedObject = hit.collider.gameObject;
+	    if(interactedObject.layer == 6){
+		interactType = InteractType.Collectible;
 	    }
+	    else if(interactedObject.layer == 7){
+		interactType = InteractType.Placeable;
+	    }
+	    
 	}
 	else{
 	    hitInteractable = false;
-	    collectedObject = null;
+	    interactedObject = null;
+	    interactType = InteractType.None;
 	}
     }
 
@@ -206,12 +219,13 @@ public class PlayerController : MonoBehaviour
     }
     
     private void OnInteract(){
-	if(hitInteractable && collectedObject != null && InteractSystem.instance.listContainsCollectible(collectedObject)){
+	if(hitInteractable && interactType == InteractType.Collectible && InteractSystem.instance.listContainsCollectible(interactedObject)){
 	    Debug.Log("collected");
-	    InteractSystem.instance.Collect(collectedObject);
+	    InteractSystem.instance.Collect(interactedObject);
 	}		
-	else if(hitInteractable){
-	    InteractSystem.instance.Place();
+	else if(hitInteractable && interactType == InteractType.Placeable ){
+	    Debug.Log("placed");
+	    InteractSystem.instance.Place(interactedObject);
 	}
     }
 
