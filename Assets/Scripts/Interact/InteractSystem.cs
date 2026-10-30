@@ -7,6 +7,8 @@ public class InteractSystem : MonoBehaviour
 
     //list containining references to objects, exposed in inspector
     [SerializeField] private List<GameObject> collectibles = new List<GameObject>();
+    [SerializeField] SoundVariations collectSounds;
+    [SerializeField] SoundVariations placeSounds;
     
     //number of collected objects
     private int collectedObjects = 0;
@@ -23,25 +25,25 @@ public class InteractSystem : MonoBehaviour
 	else{
 	    InteractSystem.instance = this;
 	}
-	for(int i = 0; i < collectibles.Count; i++){
-	    Debug.Log(collectibles[i].layer);
-	}
-	Debug.Log(getCollectibleCount());
-
-
     }
-
+    
+    //total count of collectible objects
     public int getCollectibleCount(){
 	return collectibles.Count;
     }
 
+    //wether collectible list contains item, collectible list is private
     public bool listContainsCollectible (GameObject collectible){
 	return collectibles.Contains(collectible);
     }
 
 
+    //destroys the object and incerements the number of collected objects
     public void Collect(GameObject objectToRemove){
 	collectibles.Remove(objectToRemove);
+	Debug.Log(collectSounds.name);
+	Debug.Log(InteractAudio.instance);
+	InteractAudio.instance.playAudioAtLocation(collectSounds?.getSound(),objectToRemove.transform.position);
 	Destroy(objectToRemove);
 	collectedObjects += 1;
 	Debug.Log(collectedObjects);
@@ -49,8 +51,19 @@ public class InteractSystem : MonoBehaviour
     
 
     public void Place(GameObject objectToTryPlace){
+	if(objectToTryPlace.TryGetComponent<ArtefactSlot>(out ArtefactSlot artefactSlotScript)){
+	    artefactSlotScript.TryPlace(collectedObjects);
+	    	
+	}	
+	else{
+	    Debug.Log("Placeable object does not contain artefactSlot component");
+	}
+    }
 
-	
+    public void decrementCollectedObjects(Vector3 position){
+	collectedObjects -= 1;
+	InteractAudio.instance.playAudioAtLocation(placeSounds?.getSound(),position);
+	Debug.Log(collectedObjects);
     }
 
 

@@ -11,6 +11,11 @@ using UnityEngine;
 public class ArtefactSlot: MonoBehaviour
 {
     [SerializeField] DoorManager door;
+    [SerializeField] GameObject artefactMesh;
+
+    public void Start(){
+	artefactMesh.SetActive(false);
+    }
 
     private bool isFilled = false;
 
@@ -19,16 +24,23 @@ public class ArtefactSlot: MonoBehaviour
         return isFilled;
     }
 
-    public bool Place()
+    public bool TryPlace(int currentNumCollected)
     {
+
         if (isFilled)
         {
             return false;
         }
-        isFilled = true;
+	else if(currentNumCollected > 0){
+	    isFilled = true;
+	    artefactMesh.SetActive(true);
+	    InteractSystem.instance.decrementCollectedObjects(gameObject.transform.position);
+	    door.ArtifactPlaced();
+	    return true;
 
-        door.ArtifactPlaced();
-        return true;
+	}
+
+	return false;
     }
 
 }

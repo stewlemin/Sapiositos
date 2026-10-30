@@ -188,7 +188,6 @@ public class PlayerController : MonoBehaviour
     private void OnMove(Vector2 direction){
 	    horizontalDirection = new Vector3(direction.x,0,direction.y);
 	    targetSpeed = maxSpeed;
-	    Debug.Log(direction);
     }
 
     private void OnLook(Vector2 displacement){
@@ -201,12 +200,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnUp(){
-	Debug.Log("up");
 	verticalDirection = verticalDirection + new Vector3(0f,1f,0f);
     }
 
     private void OnDown(){
-	Debug.Log("down");
 	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
     }
 
@@ -220,11 +217,9 @@ public class PlayerController : MonoBehaviour
     
     private void OnInteract(){
 	if(hitInteractable && interactType == InteractType.Collectible && InteractSystem.instance.listContainsCollectible(interactedObject)){
-	    Debug.Log("collected");
 	    InteractSystem.instance.Collect(interactedObject);
 	}		
 	else if(hitInteractable && interactType == InteractType.Placeable ){
-	    Debug.Log("placed");
 	    InteractSystem.instance.Place(interactedObject);
 	}
     }

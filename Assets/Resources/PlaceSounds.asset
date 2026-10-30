@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf29ef59f0ab76d0a853408ef3636c7e, type: 3}
+  m_Name: PlaceSounds
+  m_EditorClassIdentifier: Assembly-CSharp::SoundVariations
+  soundVariations:
+  - {fileID: 8300000, guid: 883a49b3d3834494298b6c6a90f084a3, type: 3}
+  - {fileID: 8300000, guid: b236e54ad4223bcc1a3102f5b8f6a652, type: 3}
+  - {fileID: 8300000, guid: 6371a727e72fe8725b45868740a780e0, type: 3}
+  - {fileID: 8300000, guid: 45f196ca5a5142cf8ab33d6cce1a64b8, type: 3}
