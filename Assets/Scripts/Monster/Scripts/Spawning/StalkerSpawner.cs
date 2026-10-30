@@ -10,12 +10,12 @@ public class StalkerSpawner : MonoBehaviour
 
     void OnEnable()
     {
-        events.OnArtefactCollected += HandleArtefactCollected;
+        MonsterEventChannel.OnArtefactCollected += HandleArtefactCollected;
     }
 
     void OnDisable()
     {
-        events.OnArtefactCollected -= HandleArtefactCollected;
+        MonsterEventChannel.OnArtefactCollected -= HandleArtefactCollected;
 
     }
 

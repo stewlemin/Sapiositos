@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Respawn()
     {
+        Debug.Log("respawn event triggereda");
         //fade to black
         while (fade.alpha < 1f)
         {

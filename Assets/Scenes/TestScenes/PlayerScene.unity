@@ -320,6 +320,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractSystem
   collectibles:
   - {fileID: 1262214445}
+  collectSounds: {fileID: 0}
+  placeSounds: {fileID: 0}
 --- !u!4 &438255391
 Transform:
   m_ObjectHideFlags: 0

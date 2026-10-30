@@ -20,21 +20,29 @@ public class InteractAudio : MonoBehaviour
     }
 
     public void playAudioAtLocation(AudioClip clip, Vector3 transform){
-	GameObject audioClone = Instantiate(audioPlayer , transform, Quaternion.identity);
-	AudioSource audioSource = audioClone.GetComponent<AudioSource>();
-	audioSource.spatialBlend = 1.0f;
-	audioSource.clip = clip;
-	if (clip == null) return;
-	audioSource.Play();
-	StartCoroutine(WaitForLength(clip.length,audioSource.gameObject));
+		GameObject audioClone = Instantiate(audioPlayer , transform, Quaternion.identity);
+		AudioSource audioSource = audioClone.GetComponent<AudioSource>();
+		audioSource.spatialBlend = 1.0f;
+		audioSource.clip = clip;
+		if (clip == null) return;
+		audioSource.Play();
+		StartCoroutine(WaitForLength(clip.length,audioSource.gameObject));
     }
 
     public void playAudioInChildObject(AudioClip clip, GameObject parent){
-
     }
 
-    public void playGlobalAudio(AudioClip clip){
-    }
+    public void playGlobalAudio(AudioClip clip)
+	{
+		GameObject audioClone = Instantiate(audioPlayer, Vector3.zero, Quaternion.identity);
+		AudioSource audioSource = audioClone.GetComponent<AudioSource>();
+		audioSource.spatialBlend = 0f;
+		audioSource.clip = clip;
+		if (clip == null) return;
+		audioSource.Play();
+		StartCoroutine(WaitForLength(clip.length,audioSource.gameObject));
+	}
+	
 
     IEnumerator WaitForLength(float clipLength,GameObject toDestroy){
 	yield return new WaitForSeconds(clipLength + 0.2f);	

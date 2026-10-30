@@ -1,17 +1,22 @@
-using UnityEngine;
-using UnityEngine.InputSystem;
+// using UnityEngine;
+// using UnityEngine.InputSystem;
 
-public class FakePickup : MonoBehaviour
-{
-    public MonsterEventChannel events;
+// public class FakePickup : MonoBehaviour
+// {
+//     public MonsterEventChannel events;
 
-    void Update()
-    {
+//     void Update()
+//     {
 
-        if (Keyboard.current.digit4Key.wasPressedThisFrame)
-        {
-            events.BroadcastArtefactCollected(4);
-            Debug.Log("artefact collected");
-        }
-    }
-}
+//         if (Keyboard.current.digit1Key.wasPressedThisFrame)
+//         {
+//             events.BroadcastArtefactCollected(1);
+//             Debug.Log("artefact 1 collected");
+//         }
+//         else if (Keyboard.current.digit2Key.wasPressedThisFrame)
+//         {
+//             events.BroadcastArtefactCollected(2);
+//             Debug.Log("artefact 2 collected");
+//         }
+//     }
+// }

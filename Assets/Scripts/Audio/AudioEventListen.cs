@@ -11,12 +11,12 @@ public class StalkerAudio : MonoBehaviour
     public AudioClip clip2;   
     public AudioClip clip3;
 
-    SpatialAudioManager spatial;
+    //SpatialAudioManager spatial;
     AudioManager audioManager;
 
     void Awake()
     {
-        spatial = GetComponent<SpatialAudioManager>();
+        audioManager = GetComponent<AudioManager>();
         //audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
     }
 
@@ -32,6 +32,6 @@ public class StalkerAudio : MonoBehaviour
         events.OnGazeEnded -= HandleGazeEnded;
     }
 
-    void HandleGazeStarted() => spatial.play3DSFX(clip1);
-    void HandleGazeEnded() => spatial.play3DSFX(clip2);
+    void HandleGazeStarted() => AudioManager.instance.playSFX(clip1);
+    void HandleGazeEnded() => AudioManager.instance.playSFX(clip2);
 }

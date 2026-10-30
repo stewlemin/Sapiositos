@@ -116,7 +116,9 @@ public class MonsterBrain : MonoBehaviour
             
             //if we touch or get very close to player, jumpscare
             float distToPlayer = Vector3.Distance(transform.position, targetPos);
-            if (distToPlayer < 1.5f)
+            //PLEASE STOP WRITING NON VARIABLE COMPARISONS THIS MAKES IT EXTREMELT CONFUSING
+            Debug.Log(distToPlayer);
+            if (distToPlayer < 20f)
             {
                 events.BroadcastJumpscare();
                 currentState = "Hidden";

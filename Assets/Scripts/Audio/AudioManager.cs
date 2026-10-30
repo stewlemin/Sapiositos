@@ -2,8 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour{
+
+    public static AudioManager instance;
+
+
+public void Awake()
 {
+    if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+}
     [System.Serializable]
     public class RandomSound
     {
@@ -17,12 +31,17 @@ public class AudioManager : MonoBehaviour
     //2d AudioSources
     [Header("Audio sources")]
     [SerializeField] AudioSource backgroundSource;
+    [SerializeField] AudioSource backgroundSource2;
+    [SerializeField] AudioSource breathingSource;
     [SerializeField] AudioSource sfxSource;
-
+ 
     // All the audio clips that are 2d
     [Header("Audio clips")]
     public AudioClip underwaterAmbiance;
     public AudioClip monster;
+    
+    public AudioClip breathing;
+
     public AudioClip swimming;
 
     [Header("Random interval sounds")]
@@ -34,6 +53,8 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         backgroundSource.clip = underwaterAmbiance;
+        backgroundSource2.clip = breathing;
+        backgroundSource2.loop = true;
         backgroundSource.loop = true;
         backgroundSource.Play();
 

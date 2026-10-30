@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class InteractSystem : MonoBehaviour
 {
@@ -15,8 +16,7 @@ public class InteractSystem : MonoBehaviour
 
     //use "InteractSystem.instance.OnArtefactPickup += YourHandled" to subscribe to this event
     public delegate void PickUpEvent(int artefactNumber);
-    public event PickUpEvent OnArtefactPickup;
-
+    public static event PickUpEvent OnArtefactPickup;
     
     void Awake(){
 	if(instance != null && instance != this){
@@ -43,9 +43,10 @@ public class InteractSystem : MonoBehaviour
 	collectibles.Remove(objectToRemove);
 	Debug.Log(collectSounds.name);
 	Debug.Log(InteractAudio.instance);
-	InteractAudio.instance.playAudioAtLocation(collectSounds?.getSound(),objectToRemove.transform.position);
+	InteractAudio.instance.playGlobalAudio(collectSounds?.getSound());//objectToRemove.transform.position
 	Destroy(objectToRemove);
 	collectedObjects += 1;
+    MonsterEventChannel.BroadcastArtefactCollected(collectedObjects);
 	Debug.Log(collectedObjects);
     }
     
@@ -62,7 +63,7 @@ public class InteractSystem : MonoBehaviour
 
     public void decrementCollectedObjects(Vector3 position){
 	collectedObjects -= 1;
-	InteractAudio.instance.playAudioAtLocation(placeSounds?.getSound(),position);
+	InteractAudio.instance.playGlobalAudio(placeSounds?.getSound());
 	Debug.Log(collectedObjects);
     }
 
