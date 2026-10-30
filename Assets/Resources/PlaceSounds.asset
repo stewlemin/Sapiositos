@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlaceSounds
   m_EditorClassIdentifier: Assembly-CSharp::SoundVariations
   soundVariations:
-  - {fileID: 8300000, guid: 883a49b3d3834494298b6c6a90f084a3, type: 3}
-  - {fileID: 8300000, guid: b236e54ad4223bcc1a3102f5b8f6a652, type: 3}
-  - {fileID: 8300000, guid: 6371a727e72fe8725b45868740a780e0, type: 3}
-  - {fileID: 8300000, guid: 45f196ca5a5142cf8ab33d6cce1a64b8, type: 3}
+  - {fileID: 8300000, guid: a15b03e5ee7cdefb98321a53ea968a1c, type: 3}
+  - {fileID: 8300000, guid: 2f153d1edf6fbb027a754990a7006ca9, type: 3}
+  - {fileID: 8300000, guid: b9b5dfada1408352995718c42a7fdb48, type: 3}
+  - {fileID: 8300000, guid: e5a05b252b78c81e09f58eddc91a011a, type: 3}
