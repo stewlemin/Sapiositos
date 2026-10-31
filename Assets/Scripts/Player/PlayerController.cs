@@ -100,6 +100,7 @@ public class PlayerController : MonoBehaviour
     {
 	Cursor.visible = false;
 	Cursor.lockState = CursorLockMode.Locked;
+	animator.Play("Rig|Idle_Swim",0);
     }
 
     void Update()
