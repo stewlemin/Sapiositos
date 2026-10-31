@@ -14,10 +14,6 @@ public class InteractSystem : MonoBehaviour
     //number of collected objects
     private int collectedObjects = 0;
 
-    //use "InteractSystem.instance.OnArtefactPickup += YourHandled" to subscribe to this event
-    public delegate void PickUpEvent(int artefactNumber);
-    public static event PickUpEvent OnArtefactPickup;
-    
     void Awake(){
 	if(instance != null && instance != this){
 	    Destroy(this);
@@ -41,12 +37,20 @@ public class InteractSystem : MonoBehaviour
     //destroys the object and incerements the number of collected objects
     public void Collect(GameObject objectToRemove){
 	collectibles.Remove(objectToRemove);
-	Debug.Log(collectSounds.name);
-	Debug.Log(InteractAudio.instance);
-	InteractAudio.instance.playGlobalAudio(collectSounds?.getSound());//objectToRemove.transform.position
+	if(InteractAudio.instance != null){
+	    if(collectSounds != null){
+		InteractAudio.instance.playGlobalAudio(collectSounds?.getSound());//objectToRemove.transform.position
+	    }
+	    else{
+		Debug.Log("CollectSounds are missing from InteractManager");
+	    }
+	}
+	else{
+	    Debug.Log("InteractAudio missing from scene");
+	}
 	Destroy(objectToRemove);
 	collectedObjects += 1;
-    MonsterEventChannel.BroadcastArtefactCollected(collectedObjects);
+	MonsterEventChannel.BroadcastArtefactCollected(collectedObjects);
 	Debug.Log(collectedObjects);
     }
     
