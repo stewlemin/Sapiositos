@@ -289,54 +289,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1585932971}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &438255389
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 438255391}
-  - component: {fileID: 438255390}
-  m_Layer: 0
-  m_Name: InteractManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &438255390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438255389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 793ebfadce8b22069b84245d5d51708d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractSystem
-  collectibles:
-  - {fileID: 1262214445}
-  collectSounds: {fileID: 0}
-  placeSounds: {fileID: 0}
---- !u!4 &438255391
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 438255389}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.05385, y: -0, z: 0.94729}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &849804785
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,5 +834,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1028653673}
   - {fileID: 1585932971}
-  - {fileID: 438255391}
   - {fileID: 849804786}

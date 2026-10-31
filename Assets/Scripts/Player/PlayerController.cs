@@ -216,6 +216,10 @@ public class PlayerController : MonoBehaviour
     }
     
     private void OnInteract(){
+	if(InteractSystem.instance == null){
+	    Debug.Log("Missing Interact Manager");
+	    return;
+	}
 	if(hitInteractable && interactType == InteractType.Collectible && InteractSystem.instance.listContainsCollectible(interactedObject)){
 	    InteractSystem.instance.Collect(interactedObject);
 	}		
