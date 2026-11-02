@@ -91,6 +91,17 @@ public class PlayerController : MonoBehaviour
 	UserInput.interactEvent += OnInteract;
     }
 
+    void OnDisable(){
+	UserInput.moveEvent -= OnMove;
+	UserInput.lookEvent -= OnLook;
+	UserInput.moveCanceledEvent -= OnMoveStop;
+	UserInput.upEvent -= OnUp;
+	UserInput.downEvent -= OnDown;
+	UserInput.upCanceledEvent -= OnUpStop;
+	UserInput.downCanceledEvent -= OnDownStop;
+	UserInput.interactEvent -= OnInteract;
+    }
+
     void Awake()
     {
 	controller = gameObject.GetComponent<CharacterController>();
@@ -100,6 +111,7 @@ public class PlayerController : MonoBehaviour
     {
 	Cursor.visible = false;
 	Cursor.lockState = CursorLockMode.Locked;
+	animator.Play("Rig|Idle_Swim",0);
     }
 
     void Update()
