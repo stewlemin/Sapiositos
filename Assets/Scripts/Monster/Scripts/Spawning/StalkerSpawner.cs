@@ -7,6 +7,8 @@ public class StalkerSpawner : MonoBehaviour
     public MonsterEventChannel events;
     public MonsterContext context;
     public float spawnSpace = 1.0f;
+    private const int maxSpawnAttempts = 30;
+    private const float spawnAngleRange = 45f;
 
     void OnEnable()
     {
@@ -26,16 +28,15 @@ public class StalkerSpawner : MonoBehaviour
         foreach (SpawnEntry entry in schedule.entries)
         {
             //find entry that matches
-            if (entry.artefactNr == artefactNr)
+            if (entry.artefactNr != artefactNr) continue;
+
+            //find spot to spawn monster
+            if (entry.shouldSpawn)
             {
-                //find spot to spawn monster
-                if (entry.shouldSpawn == true)
-                {
-                    Vector3 spawnSpot = FindSpawnSpot(entry.minDist, entry.maxDist);
-                    stalkerBrain.SpawnMonster(spawnSpot);
-                }
-                break; //stop searching list
-            }
+                Vector3 spawnSpot = FindSpawnSpot(entry.minDist, entry.maxDist);
+                stalkerBrain.SpawnMonster(spawnSpot);
+             }
+            break; //stop searching list
         }
     }
 
@@ -51,12 +52,12 @@ public class StalkerSpawner : MonoBehaviour
 
         Vector3 fallback = context.playerTransf.position;
         //try 30 times to find a spot that isnt inside the wall
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < maxSpawnAttempts; i++)
         {
             //pick random dist btwn min and max
             float randomDist = Random.Range(mini, maxi);
             //add random angle so its not always spawning in a straight line
-            float randomAng = Random.Range(-45f, 45f);
+            float randomAng = Random.Range(-spawnAngleRange, spawnAngleRange);
             Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
             Vector3 testPos = context.playerTransf.position + (finalDir * randomDist);
 
