@@ -77,4 +77,11 @@ public class SoundWindowRule
         }
         return MonsterStates.Patrol;
     }
+
+    public void ResetToSilent()
+    {
+        currentPhase = Phase.Silent;
+        phaseTimer = profile.maxSilentTime;
+        Debug.Log("Green light");
+    }
 }
