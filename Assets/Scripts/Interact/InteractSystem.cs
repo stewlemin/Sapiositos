@@ -13,6 +13,10 @@ public class InteractSystem : MonoBehaviour
     
     //number of collected objects
     private int collectedObjects = 0;
+	private int totalCollected = 0; //added this to fix a bug where Collect() sends the wrong number to the stalker, 
+									//because collectedObjects decreases, when you place an artefact it goes down
+									//for example if collect #1 and place it and collect the next one, the count is till at 1
+									//the schedule entry for artefact 1 fires again and entry 2 never does
 
     void Awake(){
 	if(instance != null && instance != this){
@@ -50,7 +54,8 @@ public class InteractSystem : MonoBehaviour
 	}
 	Destroy(objectToRemove);
 	collectedObjects += 1;
-	MonsterEventChannel.BroadcastArtefactCollected(collectedObjects);
+	totalCollected += 1;
+	MonsterEventChannel.BroadcastArtefactCollected(totalCollected);
 	Debug.Log(collectedObjects);
     }
     
@@ -67,8 +72,12 @@ public class InteractSystem : MonoBehaviour
 
     public void decrementCollectedObjects(Vector3 position){
 	collectedObjects -= 1;
-	InteractAudio.instance.playGlobalAudio(placeSounds?.getSound());
-	Debug.Log(collectedObjects);
+	//added this guard for a null check vvv
+	if (InteractAudio.instance != null)
+		{
+			InteractAudio.instance.playGlobalAudio(placeSounds?.getSound());
+		}
+		Debug.Log(collectedObjects);
     }
 
 

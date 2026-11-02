@@ -20,11 +20,11 @@ public class InteractAudio : MonoBehaviour
     }
 
     public void playAudioAtLocation(AudioClip clip, Vector3 transform){
+		if (clip == null) return; //moved up
 		GameObject audioClone = Instantiate(audioPlayer , transform, Quaternion.identity);
 		AudioSource audioSource = audioClone.GetComponent<AudioSource>();
 		audioSource.spatialBlend = 1.0f;
 		audioSource.clip = clip;
-		if (clip == null) return;
 		audioSource.Play();
 		StartCoroutine(WaitForLength(clip.length,audioSource.gameObject));
     }
@@ -34,11 +34,11 @@ public class InteractAudio : MonoBehaviour
 
     public void playGlobalAudio(AudioClip clip)
 	{
+		if (clip == null) return; //moved up
 		GameObject audioClone = Instantiate(audioPlayer, Vector3.zero, Quaternion.identity);
 		AudioSource audioSource = audioClone.GetComponent<AudioSource>();
 		audioSource.spatialBlend = 0f;
 		audioSource.clip = clip;
-		if (clip == null) return;
 		audioSource.Play();
 		StartCoroutine(WaitForLength(clip.length,audioSource.gameObject));
 	}
