@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f715d6666a7688a8d37937515d2bc9, type: 3}
+  m_Name: UserInput
+  m_EditorClassIdentifier: Assembly-CSharp::UserInput
+  inputAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  moveAction:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: 351f2ccd-1f9f-44bf-9bec-d62ac5c5f408
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 1
+    m_Priority: 0
+  lookAction:
+    m_Name: Look
+    m_Type: 0
+    m_ExpectedControlType: Vector2
+    m_Id: 6b444451-8a00-4d00-a97e-f47457f736a8
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 1
+    m_Priority: 0
+  interactAction:
+    m_Name: Interact
+    m_Type: 1
+    m_ExpectedControlType: 
+    m_Id: 852140f2-7766-474d-8707-702459ba45f3
+    m_Processors: 
+    m_Interactions: Hold
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  upAction:
+    m_Name: Up
+    m_Type: 1
+    m_ExpectedControlType: 
+    m_Id: 27c5f898-bc57-4ee1-8800-db469aca5fe3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  downAction:
+    m_Name: Down
+    m_Type: 1
+    m_ExpectedControlType: 
+    m_Id: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
+  sprintAction:
+    m_Name: Sprint
+    m_Type: 1
+    m_ExpectedControlType: 
+    m_Id: 641cd816-40e6-41b4-8c3d-04687c349290
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0

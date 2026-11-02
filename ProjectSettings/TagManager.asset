@@ -3,8 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags:
-  - Audio
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -12,6 +11,9 @@ TagManager:
   - 
   - Water
   - UI
+  - Collectible
+  - Placeable
+  - 
   - Obstacle
   - Monster
   - ' Player'
@@ -51,3 +53,27 @@ TagManager:
   - Light Layer 5
   - Light Layer 6
   - Light Layer 7
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
