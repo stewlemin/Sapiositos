@@ -38,81 +38,84 @@ public class UserInput : ScriptableObject
 
     void OnEnable(){
 	//assigning input actions from .inputactions file
-	moveAction = inputAsset.FindAction("Move");
-	lookAction = inputAsset.FindAction("Look");
-	interactAction = inputAsset.FindAction("Interact");
-	upAction = inputAsset.FindAction("Up");
-	downAction = inputAsset.FindAction("Down");
-	sprintAction = inputAsset.FindAction("Sprint");
+	if(inputAsset != null){
+	    
+	    moveAction = inputAsset.FindAction("Move");
+	    lookAction = inputAsset.FindAction("Look");
+	    interactAction = inputAsset.FindAction("Interact");
+	    upAction = inputAsset.FindAction("Up");
+	    downAction = inputAsset.FindAction("Down");
+	    sprintAction = inputAsset.FindAction("Sprint");
 	
-	//assigning each input event a function
-	moveAction.started += OnMove;
-	moveAction.performed += OnMove;
-	moveAction.canceled += OnMove;
+	    //assigning each input event a function
+	    moveAction.started += OnMove;
+	    moveAction.performed += OnMove;
+	    moveAction.canceled += OnMove;
 
-	lookAction.started += OnLook;
-	lookAction.performed += OnLook;
-	lookAction.canceled += OnLook;
+	    lookAction.started += OnLook;
+	    lookAction.performed += OnLook;
+	    lookAction.canceled += OnLook;
 
-	interactAction.started += OnInteract;
-	interactAction.performed += OnInteract;
-	interactAction.canceled += OnInteract;
+	    interactAction.started += OnInteract;
+	    interactAction.performed += OnInteract;
+	    interactAction.canceled += OnInteract;
 
-	upAction.started += OnUp;
-	upAction.performed += OnUp;
-	upAction.canceled += OnUp;
+	    upAction.started += OnUp;
+	    upAction.performed += OnUp;
+	    upAction.canceled += OnUp;
 
-	downAction.started += OnDown;
-	downAction.performed += OnDown;
-	downAction.canceled += OnDown;
+	    downAction.started += OnDown;
+	    downAction.performed += OnDown;
+	    downAction.canceled += OnDown;
 
-	sprintAction.started += OnSprint;
-	sprintAction.started += OnSprint;
-	sprintAction.canceled += OnSprint;
+	    sprintAction.started += OnSprint;
+	    sprintAction.performed += OnSprint;
+	    sprintAction.canceled += OnSprint;
 
-	//enabling input actions
-	moveAction.Enable();
-	lookAction.Enable();
-	interactAction.Enable();
-	upAction.Enable();
-	downAction.Enable();
-	sprintAction.Enable();
+	    //enabling input actions
+	    moveAction.Enable();
+	    lookAction.Enable();
+	    interactAction.Enable();
+	    upAction.Enable();
+	    downAction.Enable();
+	    sprintAction.Enable();
+	}
     }
 
     void OnDisable(){
 	//unsubscribing from InputAction events 
-	moveAction.started -= OnMove;
-	moveAction.performed -= OnMove;
-	moveAction.canceled -= OnMove;
+	if(inputAsset != null){
+	    moveAction.started -= OnMove;
+	    moveAction.performed -= OnMove;
+	    moveAction.canceled -= OnMove;
 
-	lookAction.started -= OnLook;
-	lookAction.performed -= OnLook;
-	lookAction.canceled -= OnLook;
+	    lookAction.started -= OnLook;
+	    lookAction.performed -= OnLook;
+	    lookAction.canceled -= OnLook;
 
-	interactAction.started -= OnInteract;
-	interactAction.performed -= OnInteract;
-	interactAction.canceled -= OnInteract;
+	    interactAction.started -= OnInteract;
+	    interactAction.performed -= OnInteract;
+	    interactAction.canceled -= OnInteract;
 
-	upAction.started -= OnUp;
-	upAction.performed -= OnUp;
-	upAction.canceled -= OnUp;
+	    upAction.started -= OnUp;
+	    upAction.performed -= OnUp;
+	    upAction.canceled -= OnUp;
 
-	downAction.started -= OnDown;
-	downAction.performed -= OnDown;
-	downAction.canceled -= OnDown;
+	    downAction.started -= OnDown;
+	    downAction.performed -= OnDown;
+	    downAction.canceled -= OnDown;
 
-	sprintAction.started -= OnSprint;
-	sprintAction.started -= OnSprint;
-	sprintAction.canceled -= OnSprint;
+	    sprintAction.started -= OnSprint;
+	    sprintAction.performed -= OnSprint;
+	    sprintAction.canceled -= OnSprint;
 
-	moveAction.Disable();
-	lookAction.Disable();
-	interactAction.Disable();
-	upAction.Disable();
-	downAction.Disable();
-	sprintAction.Disable();
-	
-
+	    moveAction.Disable();
+	    lookAction.Disable();
+	    interactAction.Disable();
+	    upAction.Disable();
+	    downAction.Disable();
+	    sprintAction.Disable();
+	}   
     }
     
     //functions that the Actions call upon user interaction
