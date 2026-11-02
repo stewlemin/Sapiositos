@@ -38,6 +38,7 @@ public class MonsterContext : MonoBehaviour
     {
         if (caveStart == null || caveExit == null || playerTransf == null) return 0f;
         float totalDist = Vector3.Distance(caveStart.position, caveExit.position);
+        if (Mathf.Approximately(totalDist, 0f)) return 0f; //guardrail if cavestart and exit are at same spot
         float currentDist = Vector3.Distance(caveStart.position, playerTransf.position);
 
         float progress = currentDist/ totalDist; //progress %
