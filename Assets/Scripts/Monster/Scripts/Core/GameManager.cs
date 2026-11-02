@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class GameManager : MonoBehaviour
     public CanvasGroup fade;
     public Transform[] spawnPoint;
     public float fadeSpeed = 2f;
+    private const float fullFade = 1f;
+    private const float fullClear = 0f;
+    private const float pause = 1f;
 
     void OnEnable()
     {
@@ -26,14 +30,30 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator Respawn()
     {
-        Debug.Log("respawn event triggereda");
+        Debug.Log("respawn event triggered");
         //fade to black
-        while (fade.alpha < 1f)
+        yield return FadeTo(fullFade);
+
+        //find closest spawnpoint
+        Transform closest = FindClosestSpawn();
+        playerTransf.position = closest.position; //tp player
+        yield return new WaitForSeconds(pause);
+
+        //fade back in
+        yield return FadeTo(fullClear);
+    }
+
+    private IEnumerator FadeTo(float targetAlpha)
+    {
+        while (!Mathf.Approximately(fade.alpha, targetAlpha))
         {
-            fade.alpha += Time.deltaTime * fadeSpeed;
+            fade.alpha = Mathf.MoveTowards(fade.alpha, targetAlpha, Time.deltaTime * fadeSpeed);
             yield return null;
         }
-        //find closest spawn point
+    }
+
+    private Transform FindClosestSpawn()
+    {
         Transform closest = spawnPoint[0];
         float shortestDist = Vector3.Distance(playerTransf.position, closest.position);
         foreach (Transform spot in spawnPoint)
@@ -45,13 +65,6 @@ public class GameManager : MonoBehaviour
                 closest = spot;
             }
         }
-        playerTransf.position = closest.position; //tp player
-        yield return new WaitForSeconds(1f);
-        //fade back in
-        while(fade.alpha > 0f)
-        {
-            fade.alpha -= Time.deltaTime * fadeSpeed;
-            yield return null;
-        }
+        return closest;
     }
 }
