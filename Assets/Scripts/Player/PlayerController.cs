@@ -246,10 +246,6 @@ public class PlayerController : MonoBehaviour
 	updateVertical();
     }
 
-    private void OnUpStop(){
-	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
-    }
-    
     private void OnInteract(){
 	if(InteractSystem.instance == null){
 	    Debug.Log("Missing Interact Manager");
