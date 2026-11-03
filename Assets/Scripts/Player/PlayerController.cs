@@ -214,6 +214,7 @@ public class PlayerController : MonoBehaviour
     private void OnMove(Vector2 direction){
 	    horizontalDirection = new Vector3(direction.x,0,direction.y);
 	    targetSpeed = maxSpeed;
+	    Debug.Log(direction);
     }
 
     private void OnLook(Vector2 displacement){
@@ -245,6 +246,9 @@ public class PlayerController : MonoBehaviour
 	updateVertical();
     }
 
+    private void OnUpStop(){
+	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
+    }
     
     private void OnInteract(){
 	if(InteractSystem.instance == null){

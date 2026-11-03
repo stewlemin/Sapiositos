@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0ac94851c16e04694345c63f050ff8, type: 3}
+  m_Name: MainSpawnSchedule
+  m_EditorClassIdentifier: Assembly-CSharp::StalkerSpawnSchedule
+  entries:
+  - artefactNr: 1
+    shouldSpawn: 0
+    minDist: 0
+    maxDist: 0
+  - artefactNr: 2
+    shouldSpawn: 1
+    minDist: 40
+    maxDist: 50
+  - artefactNr: 3
+    shouldSpawn: 1
+    minDist: 20
+    maxDist: 30
+  - artefactNr: 4
+    shouldSpawn: 1
+    minDist: 5
+    maxDist: 15
