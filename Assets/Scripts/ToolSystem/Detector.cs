@@ -14,6 +14,7 @@ public class Detector : MonoBehaviour
     ArtifactsDetector scanner;
     AudioSource audiosource;
     float beeptimer; //countdown between beeps
+    //public bool detectorequipped;
 
     void Awake()
     { 
@@ -25,7 +26,8 @@ public class Detector : MonoBehaviour
 
     public void Equip()
     {
-        gameObject.SetActive(true); //turn on ehwn equipped
+            gameObject.SetActive(true); //turn on ehwn equipped
+    
     }
     
     public void Unequip()
@@ -53,7 +55,7 @@ public class Detector : MonoBehaviour
 
         beeptimer -= Time.deltaTime;
 
-        if (beeptimer <= 0) //if timer =0
+        if (beeptimer <= 0) 
         {
             if (audiosource != null && beepclip != null)
             {
