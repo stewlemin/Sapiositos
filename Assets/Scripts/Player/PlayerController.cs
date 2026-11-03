@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxSpeed = 3f;
     [SerializeField] float acceleration = 2;
     [SerializeField] float interactRange = 2.0f;
-    
+
     //Enum conveying the player's environmental state
     enum EnvironmentType{
 	Water,
