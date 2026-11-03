@@ -15,25 +15,25 @@ public class UserInput : ScriptableObject
 
     //assigning events for each of the input actions, this approach is preffered rather then polling in Update()
     public delegate void MoveEvent(Vector2 direction);
-    public static event MoveEvent moveEvent;
-    public static event MoveEvent moveCanceledEvent;
+    public event MoveEvent moveEvent;
+    public event MoveEvent moveCanceledEvent;
 
     public delegate void LookEvent(Vector2 direction);
-    public static event LookEvent lookEvent;
+    public event LookEvent lookEvent;
 
     public delegate void InteractEvent();
-    public static event InteractEvent interactEvent;
+    public event InteractEvent interactEvent;
 
     public delegate void UpEvent();
-    public static event UpEvent upEvent;
-    public static event UpEvent upCanceledEvent;
+    public event UpEvent upEvent;
+    public event UpEvent upCanceledEvent;
 
     public delegate void DownEvent();
-    public static event DownEvent downEvent;
-    public static event DownEvent downCanceledEvent;
+    public event DownEvent downEvent;
+    public event DownEvent downCanceledEvent;
 
     public delegate void SprintEvent();
-    public static event SprintEvent sprintEvent;
+    public event SprintEvent sprintEvent;
     
 
     void OnEnable(){

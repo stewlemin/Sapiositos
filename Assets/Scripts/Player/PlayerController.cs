@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     //Inspector exposed variables 
     [SerializeField] Camera mainCamera;
+    [SerializeField] UserInput userInput;
     //change this to a different script later on
     [SerializeField] Animator animator;
     //temp prototype variables move later intro scriptable objects???
@@ -63,6 +64,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 horizontalDirection;
     private Vector3 verticalDirection;
     private Vector3 currentVelocity;
+    private bool isUpPressed = false;
+    private bool isDownPressed = false;
 
     //interact related
     private bool hitInteractable = false;
@@ -81,25 +84,25 @@ public class PlayerController : MonoBehaviour
     InteractType interactType = InteractType.None;
 
     void OnEnable(){
-	UserInput.moveEvent += OnMove;
-	UserInput.lookEvent += OnLook;
-	UserInput.moveCanceledEvent += OnMoveStop;
-	UserInput.upEvent += OnUp;
-	UserInput.downEvent += OnDown;
-	UserInput.upCanceledEvent += OnUpStop;
-	UserInput.downCanceledEvent += OnDownStop;
-	UserInput.interactEvent += OnInteract;
+	userInput.moveEvent += OnMove;
+	userInput.lookEvent += OnLook;
+	userInput.moveCanceledEvent += OnMoveStop;
+	userInput.upEvent += OnUp;
+	userInput.downEvent += OnDown;
+	userInput.upCanceledEvent += OnUpStop;
+	userInput.downCanceledEvent += OnDownStop;
+	userInput.interactEvent += OnInteract;
     }
 
     void OnDisable(){
-	UserInput.moveEvent -= OnMove;
-	UserInput.lookEvent -= OnLook;
-	UserInput.moveCanceledEvent -= OnMoveStop;
-	UserInput.upEvent -= OnUp;
-	UserInput.downEvent -= OnDown;
-	UserInput.upCanceledEvent -= OnUpStop;
-	UserInput.downCanceledEvent -= OnDownStop;
-	UserInput.interactEvent -= OnInteract;
+	userInput.moveEvent -= OnMove;
+	userInput.lookEvent -= OnLook;
+	userInput.moveCanceledEvent -= OnMoveStop;
+	userInput.upEvent -= OnUp;
+	userInput.downEvent -= OnDown;
+	userInput.upCanceledEvent -= OnUpStop;
+	userInput.downCanceledEvent -= OnDownStop;
+	userInput.interactEvent -= OnInteract;
     }
 
     void Awake()
@@ -160,6 +163,21 @@ public class PlayerController : MonoBehaviour
 	}
     }
 
+
+    private void updateVertical(){
+	float y = 0;
+	if(isUpPressed){
+	    y += 1;
+	}
+	if(isDownPressed){
+	    y -= 1;
+	}
+	if(!isUpPressed && !isDownPressed){
+	    y = 0;
+	}
+	verticalDirection = new Vector3(0.0f , y, 0.0f);
+    }
+
     private float updateStateMachines(Vector3 horizontal, Vector3 vertical){
 	if(horizontal != Vector3.zero){
 	    waterHorizontal = WaterHorizontal.Swim;
@@ -189,17 +207,14 @@ public class PlayerController : MonoBehaviour
 	else{
 	    return maxSpeed;
 	}
-
-
-
-
-	
     }
+
 
     //reading and storing the values of the input events
     private void OnMove(Vector2 direction){
 	    horizontalDirection = new Vector3(direction.x,0,direction.y);
 	    targetSpeed = maxSpeed;
+	    Debug.Log(direction);
     }
 
     private void OnLook(Vector2 displacement){
@@ -212,21 +227,25 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnUp(){
-	verticalDirection = verticalDirection + new Vector3(0f,1f,0f);
-    }
-
-    private void OnDown(){
-	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
-    }
-
-    private void OnDownStop(){
-	verticalDirection = verticalDirection + new Vector3(0f,1f,0f);
+	isUpPressed = true;
+	updateVertical();
     }
 
     private void OnUpStop(){
-	verticalDirection = verticalDirection - new Vector3(0f,1f,0f);
+	isUpPressed = false;
+	updateVertical();
     }
-    
+
+    private void OnDown(){
+	isDownPressed = true;
+	updateVertical();
+    }
+
+    private void OnDownStop(){
+	isDownPressed = false;
+	updateVertical();
+    }
+
     private void OnInteract(){
 	if(InteractSystem.instance == null){
 	    Debug.Log("Missing Interact Manager");
