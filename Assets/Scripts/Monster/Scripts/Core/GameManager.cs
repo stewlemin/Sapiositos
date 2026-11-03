@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public float jumpscareTime = 0.5f; //time before fade starts
     private bool isRespawning = false;
     public Behaviour[] disableDuringRespawn;
+    public static int deaths;
 
     void OnEnable()
     {
@@ -28,25 +29,26 @@ public class GameManager : MonoBehaviour
     private void HandlePlayerDeath()
     {
         if (isRespawning) return;   //ignore 2nd jumpscare while respawing
+        deaths++;
         StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()
     {
         isRespawning = true;
-        foreach (var b in disableDuringRespawn) b.enabled = true;
+        foreach (var b in disableDuringRespawn) b.enabled = false;
         //Debug.Log("respawn event triggered");
-
+ 
         yield return new WaitForSeconds(jumpscareTime);
-
+ 
         //fade to black
         yield return FadeTo(fullFade);
-
+ 
         //find closest spawnpoint
         Transform closest = FindClosestSpawn();
         playerTransf.position = closest.position; //tp player
         yield return new WaitForSeconds(pause);
-
+ 
         //fade back in
         yield return FadeTo(fullClear);
         foreach(var b in disableDuringRespawn) b.enabled = true;
