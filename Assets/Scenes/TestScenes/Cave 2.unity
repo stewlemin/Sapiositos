@@ -637,6 +637,7 @@ MonoBehaviour:
   playerCam: {fileID: 1049867609}
   caveStart: {fileID: 1583806955}
   caveExit: {fileID: 1745924951}
+  playerController: {fileID: 350451372}
 --- !u!4 &606211280
 Transform:
   m_ObjectHideFlags: 0
