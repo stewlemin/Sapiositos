@@ -13,33 +13,13 @@ public class MonsterEventChannel : ScriptableObject
     public Action OnWarningStarted;
 
     //stalker broadcasts
-    public static void BroadcastArtefactCollected(int artefactNr)
-    {
-        if (OnArtefactCollected != null) OnArtefactCollected(artefactNr);
-    }
-    public void BroadcastGazeStarted()
-    {
-        if (OnGazeEnded != null) OnGazeStarted();
-    }
-    public void BroadcastGazeEnded()
-    {
-        if (OnGazeEnded != null) OnGazeEnded();
-    }
-    public void BroadcastJumpscare()
-    {
-        if (OnJumpscareTriggered != null) OnJumpscareTriggered();
-    }
+    public static void BroadcastArtefactCollected(int artefactNr) => OnArtefactCollected?.Invoke(artefactNr);
+    public void BroadcastGazeStarted() => OnGazeStarted?.Invoke();
+    public void BroadcastGazeEnded() => OnGazeEnded?.Invoke();
+    public void BroadcastJumpscare() => OnJumpscareTriggered?.Invoke();
+    
     //patroller broadcasts
-    public void BroadcastSoundStarted()
-    {
-        if (OnSoundStarted != null) OnSoundStarted();
-    }
-    public void BroadcastSoundEnded()
-    {
-        if (OnSoundEnded != null) OnSoundEnded();
-    }
-    public void BroadcastWarningStarted()
-    {
-        if (OnWarningStarted != null) OnWarningStarted();
-    }
+    public void BroadcastSoundStarted() => OnSoundStarted?.Invoke();
+    public void BroadcastSoundEnded() => OnSoundEnded?.Invoke();
+    public void BroadcastWarningStarted() => OnWarningStarted?.Invoke();
 }

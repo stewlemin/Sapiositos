@@ -9,6 +9,7 @@ using UnityEngine;
 // Put this on the wall
 public class DoorManager : MonoBehaviour
 {
+    [SerializeField] DoorOpener opener;
 
     public void OnEnable(){
 //        InteractSystem.instance.OnArtefactPlaced += ArtifactPlaced;
@@ -33,7 +34,7 @@ public class DoorManager : MonoBehaviour
 
         if (AllPlaced())
         {
-            gameObject.GetComponent<Collider>().isTrigger = true;
+            opener.Open();
         }
     }
 

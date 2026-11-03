@@ -1,8 +1,12 @@
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GazeRule
 {
+    //viewport coords
+    private const float viewMin = 0f;
+    private const float viewMax = 1f;
+    private const float inFrontOfCam = 1f;
     //data vars
     private MonsterProfile profile;
     private MonsterContext context;
@@ -17,50 +21,54 @@ public class GazeRule
         profile = p;
         context = c;
         events = e;
-        lookTimer = 0f;
-        isLookedAt = false;
+        ResetTimer();
     }
 
     //handles calls from the brain every frame to tell it what to do
     public string CheckRule(Transform monsterTransf, float deltaTime)
     {
        bool playerIsLooking = IsPlayerLooking(monsterTransf);
-
        if (playerIsLooking)
         {
-            //if player just started looking at monster this frame
-            if (!isLookedAt)
-            {
-                isLookedAt = true;
-                events.BroadcastGazeStarted();
-            }
-            //increment timer
-            lookTimer += deltaTime;
-
-            //if player stared for too long, trigger attack
-            if (lookTimer >= profile.timeBeforeAttack)
-            {
-                return "Attack";
-            }
-            //otherwise stay still while watched
-            return "Frozen";
+            return HandleLookedAt(deltaTime);
         }
-        else
-        {   
-            //if player just looked away this frame
-            if (isLookedAt)
-            {
-                isLookedAt = false;
-                events.BroadcastGazeEnded();
+       return HandleNotLookedAt();
+    }
 
-                lookTimer = 0f; //reset timer
-                return "TeleportAway";
-            }
-
-            //approach player
-            return "Approach";
-
+    private string HandleLookedAt(float deltaTime)
+    {
+        //if player just started looking at monster this frame
+        if (!isLookedAt)
+        {
+            isLookedAt = true;
+            events.BroadcastGazeStarted();
         }
+        //increment timer
+        lookTimer += deltaTime;
+ 
+        //if player stared for too long, trigger attack
+        if (lookTimer >= profile.timeBeforeAttack)
+        {
+            return MonsterStates.Attack;
+        }
+        //otherwise stay still while watched
+        return MonsterStates.Frozen;
+    }
+
+    private string HandleNotLookedAt()
+    {
+        //if player just looked away this frame
+        if (isLookedAt)
+        {
+            isLookedAt = false;
+            events.BroadcastGazeEnded();
+ 
+            lookTimer = 0f; //reset timer
+            return MonsterStates.TeleportAway;
+        }
+ 
+        //approach player
+        return MonsterStates.Approach;
     }
 
     //helper function for raycast check
@@ -68,22 +76,28 @@ public class GazeRule
     {
         if (context.playerCam == null) return false;
 
-        //take monster 3d pos to 0-1 camerascreen space
-        Vector3 screenPoint = context.playerCam.WorldToViewportPoint(monsterTransf.position);
-        // z>0 means in front of camera, x and y btwn 0-1 means camera inside view frame
-        bool inView = screenPoint.z > 0f && screenPoint.x > 0f && screenPoint.x < 1f && screenPoint.y > 0f && screenPoint.y < 1f;
-        if (!inView) return false;
-
-        //see if obstacle exists btwn camera and monster
-        Vector3 eyePos = context.playerCam.transform.position;
-        Vector3 dirToMonster = monsterTransf.position - eyePos;
-        float dist = dirToMonster.magnitude;
-
-        RaycastHit hit;
-        if (Physics.Raycast(eyePos, dirToMonster, out hit, dist, profile.obstacles)) return false;
-
+        if (!IsInView(monsterTransf.position)) return false;
+        if (IsBlockedByObstacle(monsterTransf.position)) return false;
         return true;
         
+    }
+
+    private bool IsInView(Vector3 worldPos)
+    {
+        //take monster 3d pos to 0-1 camerascreen space
+        Vector3 screenPoint = context.playerCam.WorldToViewportPoint(worldPos);
+        // z>0 means in front of camera, x and y btwn 0-1 means camera inside view frame
+        return screenPoint.z > inFrontOfCam && screenPoint.x > viewMin && screenPoint.x < viewMax && screenPoint.y > viewMin && screenPoint.y < viewMax;
+    }
+
+    private bool IsBlockedByObstacle(Vector3 worldPos)
+    {
+        //see if obstacle exists btwn camera and mosnter
+        Vector3 eyePos = context.playerCam.transform.position;
+        Vector3 dirToMonster = worldPos - eyePos;
+        float dist = dirToMonster.magnitude;
+
+        return Physics.Raycast(eyePos, dirToMonster, dist, profile.obstacles);
     }
 
     //helper function to reset timer when monster spawns
