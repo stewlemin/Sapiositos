@@ -11,6 +11,7 @@ public class MonsterEventChannel : ScriptableObject
     public Action OnSoundStarted;
     public Action OnSoundEnded;
     public Action OnWarningStarted;
+    public Action OnEscaped;
 
     //stalker broadcasts
     public static void BroadcastArtefactCollected(int artefactNr) => OnArtefactCollected?.Invoke(artefactNr);
@@ -22,4 +23,7 @@ public class MonsterEventChannel : ScriptableObject
     public void BroadcastSoundStarted() => OnSoundStarted?.Invoke();
     public void BroadcastSoundEnded() => OnSoundEnded?.Invoke();
     public void BroadcastWarningStarted() => OnWarningStarted?.Invoke();
+
+    //ending broadcast
+    public void BroadcastEscaped() => OnEscaped?.Invoke();
 }

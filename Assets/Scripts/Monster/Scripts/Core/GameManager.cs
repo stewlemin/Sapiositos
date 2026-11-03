@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +11,9 @@ public class GameManager : MonoBehaviour
     private const float fullFade = 1f;
     private const float fullClear = 0f;
     private const float pause = 1f;
+    public float jumpscareTime = 0.5f; //time before fade starts
+    private bool isRespawning = false;
+    public Behaviour[] disableDuringRespawn;
 
     void OnEnable()
     {
@@ -25,12 +27,18 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlayerDeath()
     {
+        if (isRespawning) return;   //ignore 2nd jumpscare while respawing
         StartCoroutine(Respawn());
     }
 
     private IEnumerator Respawn()
     {
-        Debug.Log("respawn event triggered");
+        isRespawning = true;
+        foreach (var b in disableDuringRespawn) b.enabled = true;
+        //Debug.Log("respawn event triggered");
+
+        yield return new WaitForSeconds(jumpscareTime);
+
         //fade to black
         yield return FadeTo(fullFade);
 
@@ -41,6 +49,8 @@ public class GameManager : MonoBehaviour
 
         //fade back in
         yield return FadeTo(fullClear);
+        foreach(var b in disableDuringRespawn) b.enabled = true;
+        isRespawning = false;
     }
 
     private IEnumerator FadeTo(float targetAlpha)

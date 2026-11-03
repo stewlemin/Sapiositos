@@ -445,6 +445,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &350451372 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8069292876270823409, guid: 893ada03f881d7c0487ad251213eb007, type: 3}
+  m_PrefabInstance: {fileID: 1377549655}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a49a326388cc0bfb56d1fe7e433775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
 --- !u!4 &350451377 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5021172903530611537, guid: 893ada03f881d7c0487ad251213eb007, type: 3}
@@ -6071,6 +6082,10 @@ PrefabInstance:
       propertyPath: maxSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8069292876270823409, guid: 893ada03f881d7c0487ad251213eb007, type: 3}
+      propertyPath: userInput
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f2d1fcc755b0753091220ca6de9963a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -6230,9 +6245,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
+      propertyPath: fadeSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
       propertyPath: playerTransf
       value: 
       objectReference: {fileID: 350451377}
+    - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
+      propertyPath: jumpscareTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
       propertyPath: spawnPoint.Array.size
       value: 1
@@ -6245,6 +6268,14 @@ PrefabInstance:
       propertyPath: 'spawnPoint.Array.data[1]'
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
+      propertyPath: disableDuringRespawn.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6664883373439126377, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
+      propertyPath: 'disableDuringRespawn.Array.data[0]'
+      value: 
+      objectReference: {fileID: 350451372}
     - target: {fileID: 6738060143538941501, guid: e7d30ac479ce4b39786cfee32e09572c, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -6310,6 +6341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d4c94ed651c6d418204ab0c85af457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterBrain
+  jumpscareClip: {fileID: 8300000, guid: b2b8d3f8b5beefe44aa0879257b45b7f, type: 3}
+  jumpscareOffset: {x: 0, y: 0, z: 1.5}
+  jumpscareTime: 1.5
+  shake: 0.05
+  jumpscareDist: 5
   profile: {fileID: 11400000, guid: 2f5ecfe9c3a62b246a7ef5615ef97ea3, type: 2}
   context: {fileID: 606211279}
   events: {fileID: 11400000, guid: cc60b2b0de2d3e74e8551924372eacbf, type: 2}
