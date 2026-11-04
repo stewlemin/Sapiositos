@@ -204,6 +204,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d4c94ed651c6d418204ab0c85af457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterBrain
+  sweepSideDist: 20
+  sweepForwardDist: 15
+  frontSpawnChance: 0.8
   jumpscareClip: {fileID: 0}
   jumpscareOffset: {x: 0, y: -1, z: 1.5}
   jumpscareTime: 1
@@ -1949,7 +1952,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  openSounds: {fileID: 0}
+  openSounds: {fileID: 8300000, guid: 55756f3ef934d4de78f3ed54494940a1, type: 3}
   finishSounds: {fileID: 0}
 --- !u!114 &428695241
 MonoBehaviour:
