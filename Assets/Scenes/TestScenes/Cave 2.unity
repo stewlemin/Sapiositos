@@ -2705,6 +2705,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d4c94ed651c6d418204ab0c85af457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterBrain
+  sweepSideDist: 30
+  sweepForwardDist: 4
+  frontSpawnChance: 0.9
   jumpscareClip: {fileID: 8300000, guid: b2b8d3f8b5beefe44aa0879257b45b7f, type: 3}
   jumpscareOffset: {x: 0, y: 0, z: 1.5}
   jumpscareTime: 1.5
