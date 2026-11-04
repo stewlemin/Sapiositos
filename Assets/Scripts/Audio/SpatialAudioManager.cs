@@ -26,10 +26,18 @@ public class SpatialAudioManager : MonoBehaviour
         src.dopplerLevel = 0f;
         src.minDistance = minDistance;
         src.maxDistance = maxDistance;
+        src.rolloffMode = AudioRolloffMode.Linear; //for patroller
+        src.outputAudioMixerGroup = mixer; //for patroller
         return src;
     }
 
     public void play3DSFX(AudioClip clip){
+        if (clip == null) return;
         oneShotSource.PlayOneShot(clip);
+    }
+
+    public void stop3DSFX()
+    {
+        oneShotSource.Stop();
     }
 }

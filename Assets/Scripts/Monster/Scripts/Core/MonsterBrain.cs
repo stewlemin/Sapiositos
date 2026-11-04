@@ -1,9 +1,8 @@
-using System.Runtime.CompilerServices;
+using System.Collections;
 using UnityEngine;
 
 public class MonsterBrain : MonoBehaviour
 {
-    private const float jumpscareDist = 20f;
     private const float sweepEndReachedDist = 1.0f;
     private const float sweepSideDist = 20f;
     private const float sweepForwardDist = 15f;
@@ -11,6 +10,14 @@ public class MonsterBrain : MonoBehaviour
     private const int reposAttempts = 30;
     private const float reposAngleRange = 60f;
     private const float reposCheckRadius = 1.0f;
+
+    [Header("Patroller jumpscare")]
+    [SerializeField] AudioClip jumpscareClip;
+    [SerializeField] Vector3 jumpscareOffset = new Vector3(0f, -1f, 1.5f);
+    [SerializeField] float jumpscareTime = 1.5f;
+    [SerializeField] float shake = 0.05f;
+    [SerializeField] float jumpscareDist = 20f;
+    private bool isJumpscaring;
 
     [Header("Data references")]
     public MonsterProfile profile;
@@ -49,6 +56,8 @@ public class MonsterBrain : MonoBehaviour
 
     void Update()
     {
+        if (isJumpscaring) return;
+
         string nextDecision = GetDecision();
         
         //despawn if hidden
@@ -136,7 +145,7 @@ public class MonsterBrain : MonoBehaviour
         //patroller walk to sweep target
         MoveToward(sweepTargetPos, profile.walkSpeed);
         //if it reahces end of line early, hide it
-        if (Vector3.Distance(transform.position, sweepTargetPos) < 1.0f)
+        if (Vector3.Distance(transform.position, sweepTargetPos) < sweepEndReachedDist)
         {
             HideUnderFloor();
         }
@@ -154,17 +163,17 @@ public class MonsterBrain : MonoBehaviour
         //Debug.Log(distToPlayer);
          if (distToPlayer < jumpscareDist)
         {
-            events.BroadcastJumpscare();
-            currentState = MonsterStates.Hidden;
+            
 
             if (isStalker)
             {
+                events.BroadcastJumpscare();
+                currentState = MonsterStates.Hidden;
                 gameObject.SetActive(false); //spawner awakes stalker
             }
             else
             {
-                HideUnderFloor(); //stay active so update and rule keep running
-                soundRule.ResetToSilent(); //start next cycle fresh
+                StartCoroutine(PatrollerJumpscare());
             }
             
         }
@@ -219,15 +228,15 @@ public class MonsterBrain : MonoBehaviour
         Vector3 behindDir = -context.playerCam.transform.forward;
         behindDir.Normalize();
 
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < reposAttempts; i++)
         {
             //add random angle so its not always spawning in a straight line
-            float randomAng = Random.Range(-60f, 60f);
+            float randomAng = Random.Range(-reposAngleRange, reposAngleRange);
             Vector3 finalDir = Quaternion.Euler(0, randomAng, 0) * behindDir;
             Vector3 testPos = context.playerTransf.position + (finalDir * currentDist);
             
             //check for walls w/ 1 radius ball
-            if(!Physics.CheckSphere(testPos, 1.0f, profile.obstacles))
+            if(!Physics.CheckSphere(testPos, reposCheckRadius, profile.obstacles))
             {
                 transform.position = testPos; //found safe spot
                 break;
@@ -237,5 +246,38 @@ public class MonsterBrain : MonoBehaviour
         
         //turn to face player
         transform.LookAt(context.playerTransf.position);
+    }
+
+    private IEnumerator PatrollerJumpscare()
+    {
+        isJumpscaring = true;
+        currentState = MonsterStates.Hidden;
+        gameObject.SetActive(true);
+
+        events.BroadcastJumpscare(); //tells game manager to start respawn
+        if (jumpscareClip != null)
+        {
+            AudioSource.PlayClipAtPoint(jumpscareClip, context.playerCam.transform.position, 1f);
+        }
+
+        Transform cam = context.playerCam.transform;
+        float timer = 0f;
+        while (timer < jumpscareTime)
+        {
+            timer += Time.deltaTime;
+
+            //glue monster to cam so looking away wont let u escape and a twitch
+            transform.position = cam.TransformPoint(jumpscareOffset) + Random.insideUnitSphere * shake;
+            Vector3 lookTarget = cam.position;
+            lookTarget.y = transform.position.y; //face player
+            transform.LookAt(lookTarget);
+            yield return null;
+        }
+
+        HideUnderFloor();
+        soundRule.ResetToSilent(); //start next cycle fresh
+        currentState = MonsterStates.Hidden;
+        isJumpscaring = false;
+
     }
 }

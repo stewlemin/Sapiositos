@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestScenes/Cave 1.unity
     guid: b0718b4f95569804591e768f508c4236
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/Ending.unity
+    guid: b08f0b1b41e47fe468758662f4fbb4eb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

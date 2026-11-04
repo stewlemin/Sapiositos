@@ -7,6 +7,7 @@ public class MonsterContext : MonoBehaviour
     //patroller cave progress
     public Transform caveStart;
     public Transform caveExit;
+    public PlayerController playerController;
 
     private Vector3 lastPos;
     private float speed;
@@ -16,7 +17,9 @@ public class MonsterContext : MonoBehaviour
         if (playerTransf != null)
         {
             lastPos = playerTransf.position;
+            if (playerController == null) playerController = playerTransf.GetComponent<PlayerController>();
         }
+        if (playerController == null) Debug.LogError("monster context has no PlayerController", this);
     }
 
     void Update()
@@ -43,5 +46,11 @@ public class MonsterContext : MonoBehaviour
 
         float progress = currentDist/ totalDist; //progress %
         return Mathf.Clamp01(progress);
+    }
+
+    public bool IsPlayerTryingToMove()
+    {
+        if (playerController == null) return false;
+        return playerController.isPressingKey;
     }
 }

@@ -9,8 +9,8 @@ public class DoorOpener : MonoBehaviour
     [SerializeField] AnimationCurve easing = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     //audio
-    [SerializeField] SoundVariations openSounds; //plays when starts moving
-    [SerializeField] SoundVariations finishSounds; //play when it stops
+    [SerializeField] AudioClip openSounds; //plays when starts moving
+    [SerializeField] AudioClip finishSounds; //play when it stops
 
     private bool isOpening = false;
     private bool isOpen = false;
@@ -30,7 +30,6 @@ public class DoorOpener : MonoBehaviour
 
         Vector3 startPos = transform.position;
         Vector3 endPos = startPos + transform.TransformDirection(openOffset);
-        Vector3 prevPos = startPos;
         float elapsed = 0f;
 
         while (elapsed < openTime)
@@ -39,7 +38,6 @@ public class DoorOpener : MonoBehaviour
             float t = easing.Evaluate(Mathf.Clamp01(elapsed/openTime));
             Vector3 newPos = Vector3.Lerp(startPos, endPos, t);
             transform.position = newPos;
-            prevPos = newPos;
             yield return null;
         }
 
@@ -48,11 +46,9 @@ public class DoorOpener : MonoBehaviour
         PlaySound(finishSounds);
     }
 
-    private void PlaySound(SoundVariations sounds)
+    private void PlaySound(AudioClip clip)
     {
-        if (sounds == null || InteractAudio.instance == null) return;
-        AudioClip clip = sounds.getSound();
-        if (clip == null) return;
+        if (clip == null || InteractAudio.instance == null) return;
         InteractAudio.instance.playAudioAtLocation(clip, transform.position);
     }
 

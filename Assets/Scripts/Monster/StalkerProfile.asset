@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: StalkerProfile
   m_EditorClassIdentifier: Assembly-CSharp::MonsterProfile
   walkSpeed: 2
-  attackSpeed: 500
+  attackSpeed: 50
   stopDist: 4
   timeBeforeAttack: 2
   cooldownSpeed: 1
