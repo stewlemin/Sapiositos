@@ -40,6 +40,7 @@ public class Detector : MonoBehaviour
     }
 
     void OnEnable(){
+	Debug.Log(InteractSystem.instance);
         if(InteractSystem.instance != null){
             InteractSystem.instance.OnArtefactPickUp += RefreshList;
         }
@@ -95,6 +96,9 @@ public class Detector : MonoBehaviour
         float min = Mathf.Infinity;
         GameObject minObject = null;
         for(int i =0 ; i < collectibles.Count; i++){
+	    if(collectibles[i] == null){
+		continue;
+	    }
             Vector3 toObject = collectibles[i].transform.position - transform.position;
             float distance = toObject.magnitude;
             if(distance < min){
@@ -106,12 +110,13 @@ public class Detector : MonoBehaviour
     }
 
     void Update(){
+	if(InteractSystem.instance == null)return;
 	if(detectorState == DetectorState.Disabled){
 	    beeperSource.clip = null;
 	    return;	
 	}
 	if(detectorState == DetectorState.None){
-	    if(beeperSource != null){
+	    if(beeperSource != null && beeperSource != rechargeSound){
 		beeperSource.clip = rechargeSound;
 		beeperSource.loop = true;
 		beeperSource.Play();
@@ -135,9 +140,10 @@ public class Detector : MonoBehaviour
 		    if(beeperSource.clip != foundBeep){
 			beeperSource.clip = foundBeep;
 			beeperSource.loop = true;
-			beeperSource.Play();
+			if(!beeperSource.isPlaying)
+			    beeperSource.Play();
+			}
 		    }
-		}
 		else if(distance < 0.15f * unit * distanceScaling){//less than 15%
 		    if(beeperSource.clip != closeBeep){
 			beeperSource.clip = closeBeep;
@@ -164,13 +170,11 @@ public class Detector : MonoBehaviour
 			    beeperSource.PlayOneShot(farBeep);
 			    beepTimer = 0f;
 			}
+		    }
 		}
-
-
 	    }
 	}
 	
-    }
 
     public float CalculateDistance(GameObject target){
 	return (target.transform.position - transform.position).magnitude;
@@ -179,6 +183,7 @@ public class Detector : MonoBehaviour
     public void PowerOn(){
 	RefreshList();
 	detectorState = PollObjects(collectiblesList);
+	Debug.Log(detectorState);
     }
 
     public void PowerOff(){

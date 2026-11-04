@@ -29,11 +29,11 @@ public class ToolControl : MonoBehaviour
 
     void Update()
     {
-	Debug.Log(toolState);
 	if(flash == null || detector == null){
 	    Debug.Log("tools references missing");
 	    return;
 	}
+
         if (equipFlashlightAction.WasPressedThisFrame())
         {
 	    if(toolState != ToolState.Flashlight){
