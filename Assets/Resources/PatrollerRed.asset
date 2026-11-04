@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PatrollerRed
   m_EditorClassIdentifier: Assembly-CSharp::SoundVariations
   soundVariations:
-  - {fileID: 8300000, guid: 9e9633b07cc849f479e2c2f6dd6d517b, type: 3}
+  - {fileID: 8300000, guid: 65a15c535b42725448fa6644ecdfc146, type: 3}

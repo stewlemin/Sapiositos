@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterProfile
   walkSpeed: 2
   attackSpeed: 50
-  stopDist: 4
-  timeBeforeAttack: 2
+  stopDist: 5
+  timeBeforeAttack: 3.5
   cooldownSpeed: 1
   obstacles:
     serializedVersion: 2
     m_Bits: 512
-  maxSilentTime: 6
-  minSilentTime: 6
+  maxSilentTime: 15
+  minSilentTime: 3
   warningTime: 1.5
   soundTime: 4
-  tolerance: 0.05
+  tolerance: 1

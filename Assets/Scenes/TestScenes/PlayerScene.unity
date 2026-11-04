@@ -452,6 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   mainCamera: {fileID: 1809048444}
+  userInput: {fileID: 11400000, guid: 2f2d1fcc755b0753091220ca6de9963a, type: 2}
   animator: {fileID: 1855244619}
   lookSensitivity: 0.2
   maxCameraRotation: 85

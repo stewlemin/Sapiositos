@@ -7,6 +7,7 @@ public class EndingSequence : MonoBehaviour
 {
     private const float fullVisible = 1f;
     private const float invisible = 0f;
+    [SerializeField] AudioClip endingSound;
 
     [Header("Surface shot")]
     [SerializeField] Camera shotCam;
@@ -35,6 +36,15 @@ public class EndingSequence : MonoBehaviour
 
     IEnumerator Start()
     {
+        //play ending sound
+        if (endingSound != null)
+        {
+            AudioSource src = gameObject.AddComponent<AudioSource>();
+            src.clip = endingSound;
+            src.loop = true;
+            src.Play();
+        }
+
         foreach(CanvasGroup seq in seqs) SetGroup(seq, invisible, false);
         SetGroup(whiteout, invisible, false); //never block buttons
         if (deathsText != null) deathsText.text = GetDeathsLine(GameManager.deaths);

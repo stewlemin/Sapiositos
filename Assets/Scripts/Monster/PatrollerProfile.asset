@@ -20,8 +20,8 @@ MonoBehaviour:
   obstacles:
     serializedVersion: 2
     m_Bits: 512
-  maxSilentTime: 8
+  maxSilentTime: 5
   minSilentTime: 2
-  warningTime: 1.5
-  soundTime: 4
-  tolerance: 0.1
+  warningTime: 2
+  soundTime: 8
+  tolerance: 2

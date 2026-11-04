@@ -155,7 +155,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -234, y: 0}
+  m_AnchoredPosition: {x: -90.1, y: -89.2}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &152671364
@@ -555,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec40b21c8816c564e82197f157f81f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingSequence
+  endingSound: {fileID: 8300000, guid: e5bf3f3197e7542e6b1cab7f8f309712, type: 3}
   shotCam: {fileID: 2108136336}
   riseH: 35
   riseDur: 9
@@ -651,7 +652,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 222.7, y: 0}
+  m_AnchoredPosition: {x: 113.4, y: -89.9}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &333160266
@@ -1303,7 +1304,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &873669935
 MonoBehaviour:
   m_ObjectHideFlags: 0
