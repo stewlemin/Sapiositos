@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
 
 public class InteractSystem : MonoBehaviour
 {
@@ -12,15 +11,19 @@ public class InteractSystem : MonoBehaviour
     [SerializeField] SoundVariations placeSounds;
     
     //number of collected objects
-    private int collectedObjects = 0;
-	private int totalCollected = 0; //added this to fix a bug where Collect() sends the wrong number to the stalker, 
-									//because collectedObjects decreases, when you place an artefact it goes down
+    private int artefactsOnPlayer = 0;
+    private int totalCollected = 0; //added this to fix a bug where Collect() sends the wrong number to the stalker, 
+									//because artefactsOnPlayer decreases, when you place an artefact it goes down
 									//for example if collect #1 and place it and collect the next one, the count is till at 1
 									//the schedule entry for artefact 1 fires again and entry 2 never does
+    //event for detector
+    public delegate void PickupEvent();
+    public event PickupEvent OnArtefactPickUp;
 
+    
     void Awake(){
 	if(instance != null && instance != this){
-	    Destroy(this);
+	    Destroy(gameObject);
 	}
 	else{
 	    InteractSystem.instance = this;
@@ -30,6 +33,10 @@ public class InteractSystem : MonoBehaviour
     //total count of collectible objects
     public int getCollectibleCount(){
 	return collectibles.Count;
+    }
+
+    public List<GameObject> getCollectibleList(){
+	return new List<GameObject>(collectibles);
     }
 
     //wether collectible list contains item, collectible list is private
@@ -53,16 +60,16 @@ public class InteractSystem : MonoBehaviour
 	    Debug.Log("InteractAudio missing from scene");
 	}
 	Destroy(objectToRemove);
-	collectedObjects += 1;
+	OnArtefactPickUp?.Invoke();
+	artefactsOnPlayer += 1;
 	totalCollected += 1;
 	MonsterEventChannel.BroadcastArtefactCollected(totalCollected);
-	Debug.Log(collectedObjects);
+	Debug.Log(artefactsOnPlayer);
     }
-    
 
     public void Place(GameObject objectToTryPlace){
 	if(objectToTryPlace.TryGetComponent<ArtefactSlot>(out ArtefactSlot artefactSlotScript)){
-	    artefactSlotScript.TryPlace(collectedObjects);
+	    artefactSlotScript.TryPlace(artefactsOnPlayer);
 	    	
 	}	
 	else{
@@ -71,13 +78,13 @@ public class InteractSystem : MonoBehaviour
     }
 
     public void decrementCollectedObjects(Vector3 position){
-	collectedObjects -= 1;
+	artefactsOnPlayer -= 1;
 	//added this guard for a null check vvv
 	if (InteractAudio.instance != null)
 		{
 			InteractAudio.instance.playGlobalAudio(placeSounds?.getSound());
 		}
-		Debug.Log(collectedObjects);
+		Debug.Log(artefactsOnPlayer);
     }
 
 
