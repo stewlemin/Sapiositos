@@ -7,10 +7,9 @@ public class Flashlight : MonoBehaviour
 {
     //flashlight
     [SerializeField] private Light spotlight;
-    [SerializeField] private GameObject flashobject;
     [SerializeField] private InputAction toggleAction = new InputAction("ToggleFlashlight", InputActionType.Button, "<Mouse>/rightButton");
     private bool isOn = true;
-    private bool isEquipped; 
+    private bool isEquipped = false; 
     
     //battery
     public float fullbattery = 10f; //maximum battery capacity
@@ -60,22 +59,14 @@ public class Flashlight : MonoBehaviour
         toggleAction.Disable();  
     }
 
-    public void Equip()
+    public void PowerOn()
     {
-        isEquipped = true;
-        if (flashobject != null)
-        {
-            flashobject.SetActive(true);    
-        } 
+	isEquipped = true;
     }
     
-    public void Unequip()
+    public void PowerOff()
     {
-        isEquipped = false;  
-        if (flashobject != null)
-        {
-            flashobject.SetActive(false);   
-        } 
+	isEquipped = false;
     }
     
     void Update()
