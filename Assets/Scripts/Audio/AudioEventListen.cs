@@ -2,7 +2,7 @@ using UnityEngine;
 
 // Listens to the monster's event channel and turns events into sounds
 [RequireComponent(typeof(SpatialAudioManager))]
-public class StalkerAudio : MonoBehaviour
+public class AudioEventListen : MonoBehaviour
 {
     [SerializeField] MonsterEventChannel events;
 

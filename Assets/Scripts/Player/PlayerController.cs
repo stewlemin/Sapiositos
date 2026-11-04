@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 using System;
 using System.Collections;
 
+//anything
+
 public class PlayerController : MonoBehaviour
 {
     //Inspector exposed variables 
@@ -17,7 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxSpeed = 3f;
     [SerializeField] float acceleration = 2;
     [SerializeField] float interactRange = 2.0f;
-    
+	public bool isPressingKey => horizontalDirection != Vector3.zero || verticalDirection != Vector3.zero; //for patroller
+
     //Enum conveying the player's environmental state
     enum EnvironmentType{
 	Water,

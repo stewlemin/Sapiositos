@@ -61,7 +61,9 @@ public class SoundWindowRule
     // red light: attack if the player moves, otherwise keep walking
     private string UpdateSound()
     {
-        if (context.GetPlayerSpeed() > profile.tolerance)
+        bool isGracePeriod = phaseTimer > (profile.soundTime - profile.tolerance) || phaseTimer < profile.tolerance;
+
+        if (!isGracePeriod && context.IsPlayerTryingToMove())
         {
             Debug.Log("Game over");
             return MonsterStates.Attack;
