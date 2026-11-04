@@ -556,8 +556,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingSequence
   shotCam: {fileID: 2108136336}
-  riseH: 40
-  riseDur: 12
+  riseH: 35
+  riseDur: 9
   riseEase:
     serializedVersion: 2
     m_Curve:
@@ -587,14 +587,14 @@ MonoBehaviour:
   deepFogDensity: 0.05
   surfaceFogDensity: 0.01
   whiteout: {fileID: 2038150103}
-  whiteoutStart: 0.7
+  whiteoutStart: 0.8
   seqs:
   - {fileID: 1907020665}
   - {fileID: 1964115489}
   - {fileID: 1226358718}
   - {fileID: 1606829579}
-  fadeSec: 1.5
-  holdSec: 2
+  fadeSec: 1.1
+  holdSec: 1.5
   deathsText: {fileID: 873669935}
   noDeathsText: You were never caught! The monsters went hungry today...
   oneDeathText: You were only killed once! The monsters are impressed...
@@ -1670,7 +1670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1606829578
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6771,7 +6771,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1907020664
 RectTransform:
   m_ObjectHideFlags: 0
