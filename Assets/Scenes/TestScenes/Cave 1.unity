@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 20847026}
   - component: {fileID: 20847025}
   - component: {fileID: 20847024}
-  - component: {fileID: 20847023}
+  - component: {fileID: 20847030}
   m_Layer: 7
   m_Name: Stalker
   m_TagString: Untagged
@@ -177,22 +177,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &20847023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 20847022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64e95c007a1e64cadbb097cce9b89711, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::StalkerAudio
-  events: {fileID: 11400000, guid: cc60b2b0de2d3e74e8551924372eacbf, type: 2}
-  clip1: {fileID: 8300000, guid: 63291e7721465a547807f8fe25d0a0e2, type: 3}
-  clip2: {fileID: 0}
-  clip3: {fileID: 0}
 --- !u!114 &20847024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,9 +206,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterBrain
   jumpscareClip: {fileID: 0}
   jumpscareOffset: {x: 0, y: -1, z: 1.5}
-  jumpscareTime: 1.5
+  jumpscareTime: 1
   shake: 0.05
-  jumpscareDist: 20
+  jumpscareDist: 1.5
   profile: {fileID: 11400000, guid: 2ca79f4fbd5b0e14ba51d8192cb7271e, type: 2}
   context: {fileID: 730667645}
   events: {fileID: 11400000, guid: cc60b2b0de2d3e74e8551924372eacbf, type: 2}
@@ -319,12 +303,26 @@ Transform:
   m_GameObject: {fileID: 20847022}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1116.75, y: 90.5, z: 458.8}
+  m_LocalPosition: {x: -1095.5, y: 94.1, z: 436.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20847030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20847022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4d911f6c062724da5eb0865cd25de6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StalkerAudio
+  events: {fileID: 11400000, guid: cc60b2b0de2d3e74e8551924372eacbf, type: 2}
+  gazeStartedSounds: {fileID: 11400000, guid: 9fe9d79285623184f8422d9b0197fea2, type: 2}
 --- !u!1 &31371282
 GameObject:
   m_ObjectHideFlags: 0

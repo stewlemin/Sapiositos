@@ -4,14 +4,16 @@ using UnityEngine;
 public class MonsterBrain : MonoBehaviour
 {
     private const float sweepEndReachedDist = 1.0f;
-    private const float sweepSideDist = 20f;
-    private const float sweepForwardDist = 15f;
+    [Header("Patroller sweep settings")]
+    [SerializeField] private float sweepSideDist = 20f;
+    [SerializeField] private float sweepForwardDist = 15f;
+    [SerializeField] [Range(0f, 1f)] private float frontSpawnChance = 0.8f;
     private const float coinFlip = 0.5f;
     private const int reposAttempts = 30;
     private const float reposAngleRange = 60f;
     private const float reposCheckRadius = 1.0f;
 
-    [Header("Patroller jumpscare")]
+    [Header("Patroller jumpscare settings")]
     [SerializeField] AudioClip jumpscareClip;
     [SerializeField] Vector3 jumpscareOffset = new Vector3(0f, -1f, 1.5f);
     [SerializeField] float jumpscareTime = 1.5f;
@@ -167,9 +169,7 @@ public class MonsterBrain : MonoBehaviour
 
             if (isStalker)
             {
-                events.BroadcastJumpscare();
-                currentState = MonsterStates.Hidden;
-                gameObject.SetActive(false); //spawner awakes stalker
+                StartCoroutine(StalkerJumpscare());
             }
             else
             {
@@ -187,8 +187,27 @@ public class MonsterBrain : MonoBehaviour
     //helper function for patroller to calculate the line sweep
     private void StartSweep()
     {
-        float forwardDist = RandomSign(sweepForwardDist); //decide if sweep in front or behind player
-        float sideDist = RandomSign(sweepSideDist); //decide if start left or right
+        float forwardDist;
+        //decide if sweep in front or behind player
+        if (Random.value <= frontSpawnChance)
+        {
+            forwardDist = sweepForwardDist;
+        }
+        else
+        {
+            forwardDist = -sweepForwardDist;
+        }
+
+        float sideDist;
+        //decide if start left or right
+        if (Random.value <= 0.5f)
+        {
+            sideDist = sweepSideDist; //50% chance to go right
+        }
+        else
+        {
+            sideDist = -sweepSideDist; //50% chance to go left
+        }
 
         //get player orientation
         Vector3 playerPos = context.playerTransf.position;
@@ -279,5 +298,15 @@ public class MonsterBrain : MonoBehaviour
         currentState = MonsterStates.Hidden;
         isJumpscaring = false;
 
+    }
+
+    private IEnumerator StalkerJumpscare()
+    {
+        isJumpscaring = true;
+        events.BroadcastJumpscare();
+        yield return new WaitForSeconds(jumpscareTime);
+        currentState = MonsterStates.Hidden;
+        gameObject.SetActive(false);
+        isJumpscaring = true;
     }
 }
