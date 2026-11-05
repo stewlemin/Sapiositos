@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundVariations
   soundVariations:
   - {fileID: 8300000, guid: 63291e7721465a547807f8fe25d0a0e2, type: 3}
+  - {fileID: 8300000, guid: 85838f248ebe5a142a3c838edb529d12, type: 3}
+  - {fileID: 8300000, guid: 376dc3d3b287e0c4a8a5a6012854e3e3, type: 3}
+  - {fileID: 8300000, guid: 1d380e8937e26bd41a681460c405692e, type: 3}

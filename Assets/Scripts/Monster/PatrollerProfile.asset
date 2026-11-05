@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PatrollerProfile
   m_EditorClassIdentifier: Assembly-CSharp::MonsterProfile
   walkSpeed: 8
-  attackSpeed: 30
+  attackSpeed: 40
   stopDist: 6
   timeBeforeAttack: 3
   cooldownSpeed: 1
