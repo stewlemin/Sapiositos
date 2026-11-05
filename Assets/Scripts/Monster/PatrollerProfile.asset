@@ -23,5 +23,5 @@ MonoBehaviour:
   maxSilentTime: 5
   minSilentTime: 2
   warningTime: 2
-  soundTime: 8
+  soundTime: 6
   tolerance: 2
