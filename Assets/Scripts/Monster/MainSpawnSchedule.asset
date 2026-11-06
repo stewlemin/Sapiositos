@@ -29,7 +29,3 @@ MonoBehaviour:
     shouldSpawn: 1
     minDist: 10
     maxDist: 20
-  - artefactNr: 5
-    shouldSpawn: 1
-    minDist: 5
-    maxDist: 15
