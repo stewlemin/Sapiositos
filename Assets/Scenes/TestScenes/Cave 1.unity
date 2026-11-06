@@ -15,9 +15,9 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.005606979, g: 0.005606979, b: 0.05660379, a: 1}
+  m_FogColor: {r: 0.06666667, g: 0.06666667, b: 0.15294118, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.2
+  m_FogDensity: 0.05
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.00006883565, g: 0.00006883565, b: 0.00044221687, a: 1}
@@ -2365,6 +2365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3688973609402633150, guid: a624d792a6b2b7842ab5971640063ea8, type: 3}
+      propertyPath: timetofullycharge
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4276565852481352378, guid: a624d792a6b2b7842ab5971640063ea8, type: 3}
       propertyPath: maxSpeed
       value: 10
@@ -2956,7 +2960,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -195, y: 286}
+  m_AnchoredPosition: {x: -195, y: 718}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &545851234
@@ -4619,10 +4623,16 @@ MonoBehaviour:
   - text: Press WASD to move
     delayBefore: 0.5
     holdTime: 2
-  - text: Press Q to switch tools
+  - text: Press SPACE to go up
+    delayBefore: 0.5
+    holdTime: 2
+  - text: Press C to go down
     delayBefore: 0.5
     holdTime: 2
   - text: Press E to interact
+    delayBefore: 0.5
+    holdTime: 2
+  - text: Press Q to switch tools
     delayBefore: 0.5
     holdTime: 2
   - text: Your Flashlight is not infinite...
@@ -4632,6 +4642,9 @@ MonoBehaviour:
     delayBefore: 0.5
     holdTime: 2
   - text: The detector finds artefacts
+    delayBefore: 0.5
+    holdTime: 2
+  - text: DON'T LOOK A IT
     delayBefore: 0.5
     holdTime: 2
   hintGroup: {fileID: 545851234}
@@ -7331,7 +7344,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 40
+  m_Range: 80
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}

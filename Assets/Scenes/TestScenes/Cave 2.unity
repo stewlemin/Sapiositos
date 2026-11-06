@@ -2390,7 +2390,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &812334413
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2407,7 +2407,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -195, y: 286}
+  m_AnchoredPosition: {x: -195, y: 708}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &812334414
@@ -9627,7 +9627,10 @@ MonoBehaviour:
   goalText: {fileID: 1473260741}
   subgoalText: {fileID: 682135231}
   objectiveFade: 0.4
-  hints: []
+  hints:
+  - text: When you hear it, DON'T move
+    delayBefore: 0
+    holdTime: 0
   hintGroup: {fileID: 812334414}
   hintText: {fileID: 812334415}
   hintStartDelay: 0.5
