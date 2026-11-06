@@ -1,15 +1,34 @@
-# Sapiositos
+# Sapiositos - IMDEV Group 4
 
-## Workflow
+## Team Members
 
-To avoid merge conflicts, please keep in mind the following:
-- separate branch for each individual feature, that you merge upon MVP is done for that feature, please name them appropriately e.g. `monster-ai` / `3d-audio`
-- create separate test scenes under `/Scenes/TestScenes` where you work on implementing the feature (.unity conflicts are bad)
+* Matei Dima
 
-Make sure to write ***explicit commit messages*** so it's easy to revert to previous versions in case things go wrong.
+* Alex Negreanu
 
-`Please write meaningful documentation for your code, and try to write scalable modular systems.`
+* Teodora Hincu
 
-### I wish us the best of luck with developing this project! :P
+* Marek Roque
 
+## Basic Controls
 
+| Key / Input | Action | 
+| ----- | ----- | 
+| **W A S D** | horizontal move controls | 
+| **Space / C** | vertical move controls | 
+| **Mouse** | Look around | 
+| **Q** | Switch Tools | 
+| **E** | Interact | 
+| **Right Mouse Button** | Turn Off Flashlight(when equipped) | 
+
+## Third-party assets
+
+All game assets are made by our team members, no third party assets were used during the development of our IMDEV project.
+
+## AI Credits
+
+During the WebGL Export, we encountered some issues which we debugged with AI. This helped us reach a working solution in the end. During one of the commits macOS added .DS_Store files to the working directory, we used AI to remove them from the project. AI was not used at any other point throughout this project.
+
+## Known bugs
+
+There are two issues with the Stalker Monster Implementation(First Area Monster). The monster will occasionally get stuck in the ground and the monster does not always play audio when being stared at. Monster sometimes appears to be clipping to the ground(Second Area Monster). Visual inconsistencies when switching tools.
