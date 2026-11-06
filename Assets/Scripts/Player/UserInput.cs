@@ -70,14 +70,20 @@ public class UserInput : ScriptableObject
 	    sprintAction.performed += OnSprint;
 	    sprintAction.canceled += OnSprint;
 
-	    //enabling input actions
-	    moveAction.Enable();
-	    lookAction.Enable();
-	    interactAction.Enable();
-	    upAction.Enable();
-	    downAction.Enable();
-	    sprintAction.Enable();
+	    EnableActions();
 	}
+    }
+
+    //in builds this asset's OnEnable runs before the Input System initializes, which disables the actions again,
+    //so components using this asset call this from their own OnEnable as well
+    public void EnableActions(){
+	if(inputAsset == null) return;
+	moveAction.Enable();
+	lookAction.Enable();
+	interactAction.Enable();
+	upAction.Enable();
+	downAction.Enable();
+	sprintAction.Enable();
     }
 
     void OnDisable(){

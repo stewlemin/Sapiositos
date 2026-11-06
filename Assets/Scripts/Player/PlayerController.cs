@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     private GameObject interactedObject;
 
     //camera realted
-    private Vector2 cameraDisplacement;
     private float pitch = 0f;
     private float yaw = 0f;
     private float targetSpeed = 0f;
@@ -77,9 +76,7 @@ public class PlayerController : MonoBehaviour
     string lastTriggerSent;
 
     void OnEnable(){
-	userInput.moveEvent += OnMove;
-	userInput.lookEvent += OnLook;
-	userInput.moveCanceledEvent += OnMoveStop;
+	userInput.EnableActions();
 	userInput.upEvent += OnUp;
 	userInput.downEvent += OnDown;
 	userInput.upCanceledEvent += OnUpStop;
@@ -88,9 +85,6 @@ public class PlayerController : MonoBehaviour
     }
 
     void OnDisable(){
-	userInput.moveEvent -= OnMove;
-	userInput.lookEvent -= OnLook;
-	userInput.moveCanceledEvent -= OnMoveStop;
 	userInput.upEvent -= OnUp;
 	userInput.downEvent -= OnDown;
 	userInput.upCanceledEvent -= OnUpStop;
@@ -112,8 +106,19 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+	//browsers only allow pointer lock after a click, so locking in Start() does nothing on WebGL
+	if(Cursor.lockState != CursorLockMode.Locked && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame){
+	    Cursor.lockState = CursorLockMode.Locked;
+	    Cursor.visible = false;
+	}
+
+	//polled like look, so movement doesn't depend on performed/canceled events arriving
+	Vector2 moveInput = userInput.moveAction.ReadValue<Vector2>();
+	horizontalDirection = new Vector3(moveInput.x, 0, moveInput.y);
+
 	handleMovement();
-	handleCamera(cameraDisplacement);
+	//polled instead of event driven, pointer delta is per frame and the look event isn't guaranteed to reset it
+	handleCamera(userInput.lookAction.ReadValue<Vector2>());
 	handleRaycast();
 	handleAnimations();
     }
@@ -244,20 +249,6 @@ public class PlayerController : MonoBehaviour
 
 
     //reading and storing the values of the input events
-    private void OnMove(Vector2 direction){
-	    horizontalDirection = new Vector3(direction.x,0,direction.y);
-	    targetSpeed = maxSpeed;
-    }
-
-    private void OnLook(Vector2 displacement){
-	cameraDisplacement = displacement; 
-    }
-
-
-    private void OnMoveStop(Vector2 directionZero){
-	horizontalDirection = directionZero;
-    }
-
     private void OnUp(){
 	isUpPressed = true;
 	updateVertical();
