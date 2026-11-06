@@ -9629,8 +9629,8 @@ MonoBehaviour:
   objectiveFade: 0.4
   hints:
   - text: When you hear it, DON'T move
-    delayBefore: 0
-    holdTime: 0
+    delayBefore: 0.5
+    holdTime: 2
   hintGroup: {fileID: 812334414}
   hintText: {fileID: 812334415}
   hintStartDelay: 0.5
