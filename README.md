@@ -10,6 +10,9 @@
 
 * Marek Roque
 
+## Itch.io link
+https://mmrr-58.itch.io/sapiositos
+
 ## Basic Controls
 
 | Key / Input | Action | 
