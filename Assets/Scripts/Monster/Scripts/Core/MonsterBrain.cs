@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Transactions;
 using UnityEngine;
 
 public class MonsterBrain : MonoBehaviour
@@ -20,6 +21,7 @@ public class MonsterBrain : MonoBehaviour
     [SerializeField] float shake = 0.05f;
     [SerializeField] float jumpscareDist = 20f;
     private bool isJumpscaring;
+    private bool lockAttack; //patroller: once attack triggers, ignore input until jumpscare finishes
 
     [Header("Data references")]
     public MonsterProfile profile;
@@ -60,7 +62,9 @@ public class MonsterBrain : MonoBehaviour
     {
         if (isJumpscaring) return;
 
-        string nextDecision = GetDecision();
+        string nextDecision = lockAttack ? MonsterStates.Attack : GetDecision();
+
+        if (!isStalker && nextDecision == MonsterStates.Attack) lockAttack = true;
         
         //despawn if hidden
         if (nextDecision == MonsterStates.Hidden)
@@ -146,6 +150,7 @@ public class MonsterBrain : MonoBehaviour
     {
         //patroller walk to sweep target
         MoveToward(sweepTargetPos, profile.walkSpeed);
+        transform.LookAt(sweepTargetPos); //look at player
         //if it reahces end of line early, hide it
         if (Vector3.Distance(transform.position, sweepTargetPos) < sweepEndReachedDist)
         {
@@ -156,8 +161,20 @@ public class MonsterBrain : MonoBehaviour
     private void Attack()
     {
         gameObject.SetActive(true); //make sure its visible
+
+        if (transform.position.y < -100f)
+        {
+            Vector3 surfacePos = context.playerTransf.position + (context.playerTransf.forward * 10f);
+            transform.position = surfacePos;
+        }
+
         //rush to player
         Vector3 targetPos = context.playerTransf.position;
+        // face player
+        Vector3 lookTarget = targetPos;
+        lookTarget.y = transform.position.y;
+        transform.LookAt(lookTarget);
+
         MoveToward(targetPos, profile.attackSpeed);
         
         //if we touch or get very close to player, jumpscare
@@ -296,6 +313,7 @@ public class MonsterBrain : MonoBehaviour
         HideUnderFloor();
         soundRule.ResetToSilent(); //start next cycle fresh
         currentState = MonsterStates.Hidden;
+        lockAttack = false;
         isJumpscaring = false;
 
     }
@@ -307,6 +325,6 @@ public class MonsterBrain : MonoBehaviour
         yield return new WaitForSeconds(jumpscareTime);
         currentState = MonsterStates.Hidden;
         gameObject.SetActive(false);
-        isJumpscaring = true;
+        isJumpscaring = false;
     }
 }

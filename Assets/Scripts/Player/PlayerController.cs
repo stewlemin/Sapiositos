@@ -19,37 +19,25 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float maxSpeed = 3f;
     [SerializeField] float acceleration = 2;
     [SerializeField] float interactRange = 2.0f;
-	public bool isPressingKey => horizontalDirection != Vector3.zero || verticalDirection != Vector3.zero; //for patroller
 
-    //Enum conveying the player's environmental state
-    enum EnvironmentType{
-	Water,
-	Land
-    }
+    [SerializeField] float tiltAngle = 5.0f;
+    [SerializeField] float tiltSpeed = 0.5f;
+
+
+    public bool isPressingKey => horizontalDirection != Vector3.zero || verticalDirection != Vector3.zero; //for patroller
+
+
 
     //Movement realted states undewater
     enum WaterHorizontal{
         Idle,
-	Swim
+	Swim,
     }
 
     enum WaterVertical{
 	Idle,
 	Ascend,
 	Descend
-    }
-
-    //Movement related states on land
-    enum LandHorizontal{
-        Idle,
-	Walking,
-	Sprinting,
-    }
-
-    enum LandVertical{
-	Idle,
-	Jumping,
-	Falling
     }
 
     //Enum for collectable states
@@ -80,11 +68,13 @@ public class PlayerController : MonoBehaviour
     private float pitch = 0f;
     private float yaw = 0f;
     private float targetSpeed = 0f;
+    private float currentRoll = 0f;
 
     //state machine related
     WaterHorizontal waterHorizontal;
     WaterVertical waterVertical;
     InteractType interactType = InteractType.None;
+    string lastTriggerSent;
 
     void OnEnable(){
 	userInput.moveEvent += OnMove;
@@ -125,6 +115,7 @@ public class PlayerController : MonoBehaviour
 	handleMovement();
 	handleCamera(cameraDisplacement);
 	handleRaycast();
+	handleAnimations();
     }
 
     private void handleMovement(){
@@ -143,7 +134,20 @@ public class PlayerController : MonoBehaviour
 	pitch -= mouseDelta.y * lookSensitivity;
 	pitch = Math.Clamp(pitch,-maxCameraRotation, maxCameraRotation);
 	yaw += mouseDelta.x * lookSensitivity;
-	transform.rotation = Quaternion.Euler(pitch,yaw,0);
+
+	float targetRoll = 0f;
+	if(horizontalDirection.x < -0.1f) targetRoll = tiltAngle;
+	else if(horizontalDirection.x > 0.1f) targetRoll = -tiltAngle; 
+	
+	//camera roll on sway movement
+	currentRoll = Mathf.Lerp(currentRoll, targetRoll, tiltSpeed * Time.deltaTime);
+
+	transform.rotation = Quaternion.Euler(pitch,yaw,currentRoll);
+
+	//underwater viewbob
+	if(mainCamera != null){
+	    
+	}
     }
 
     private void handleRaycast(){
@@ -181,14 +185,14 @@ public class PlayerController : MonoBehaviour
 	verticalDirection = new Vector3(0.0f , y, 0.0f);
     }
 
+
+
     private float updateStateMachines(Vector3 horizontal, Vector3 vertical){
 	if(horizontal != Vector3.zero){
 	    waterHorizontal = WaterHorizontal.Swim;
-	    animator.speed = 2f;
 	}
 	else{
 	    waterHorizontal = WaterHorizontal.Idle;
-	    animator.speed = 0.5f;
 	}
 
 	if(vertical.y > 0f){
@@ -210,6 +214,32 @@ public class PlayerController : MonoBehaviour
 	else{
 	    return maxSpeed;
 	}
+    }
+
+    private void handleAnimations(){
+	if (waterHorizontal == WaterHorizontal.Idle)
+        {
+            animator.SetInteger("MotionState", 0);
+            animator.speed = 1f;
+        }
+        else 
+        {
+            if (horizontalDirection.x < -0.1f)
+            {
+                animator.SetInteger("MotionState", 1); 
+                animator.speed = 1f;
+            }
+            else if (horizontalDirection.x > 0.1f)
+            {
+                animator.SetInteger("MotionState", 2); 
+                animator.speed = 1f;
+            }
+            else
+            {
+                animator.SetInteger("MotionState", 0);
+                animator.speed = 2f;
+            }
+        }
     }
 
 
@@ -249,6 +279,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnInteract(){
+	if(hitInteractable){
+	    animator.SetTrigger("Collect");
+	}
 	if(InteractSystem.instance == null){
 	    Debug.Log("Missing Interact Manager");
 	    return;

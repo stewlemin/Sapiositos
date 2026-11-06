@@ -9,7 +9,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Light spotlight;
     [SerializeField] private InputAction toggleAction = new InputAction("ToggleFlashlight", InputActionType.Button, "<Mouse>/rightButton");
     private bool isOn = true;
-    private bool isEquipped = false; 
+    public bool isEquipped = true; 
     
     //battery
     public float fullbattery = 10f; //maximum battery capacity

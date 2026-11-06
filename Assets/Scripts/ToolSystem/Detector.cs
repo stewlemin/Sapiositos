@@ -115,13 +115,13 @@ public class Detector : MonoBehaviour
 	    beeperSource.clip = null;
 	    return;	
 	}
-	if(detectorState == DetectorState.None){
-	    if(beeperSource != null && beeperSource != rechargeSound){
-		beeperSource.clip = rechargeSound;
-		beeperSource.loop = true;
-		beeperSource.Play();
-	    }
-	}
+	// if(detectorState == DetectorState.None){
+	//     if(beeperSource != null && beeperSource != rechargeSound){
+	// 	beeperSource.clip = rechargeSound;
+	// 	beeperSource.loop = true;
+	// 	beeperSource.Play();
+	//     }
+	// }
         if(detectorState == DetectorState.None && InteractSystem.instance.getCollectibleCount() == 0 || detectorState == DetectorState.Recharging ) {
             return;
         }
