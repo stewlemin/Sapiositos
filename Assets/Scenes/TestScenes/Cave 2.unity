@@ -265,7 +265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c91332bafa696493aa58c7cbe0ba3b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7c91332bafa696493aa58c7cbe0ba3b3, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1400,7 +1400,7 @@ MonoBehaviour:
   playerCam: {fileID: 1245459085}
   caveStart: {fileID: 1583806955}
   caveExit: {fileID: 1745924951}
-  playerController: {fileID: 0}
+  playerController: {fileID: 1519301566}
 --- !u!4 &606211280
 Transform:
   m_ObjectHideFlags: 0
@@ -3522,6 +3522,17 @@ Transform:
   - {fileID: 1085718343}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1519301566 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4276565852481352378, guid: a624d792a6b2b7842ab5971640063ea8, type: 3}
+  m_PrefabInstance: {fileID: 1245459082}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64a49a326388cc0bfb56d1fe7e433775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
 --- !u!1001 &1559963222
 PrefabInstance:
   m_ObjectHideFlags: 0
